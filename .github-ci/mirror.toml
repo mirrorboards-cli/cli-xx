@@ -60,3 +60,13 @@ rev = "96788a34de9067be866027721e94e025f32e0a02"
 git = "git@github.com:mirrorboards-xkeys/xkeys-session.git"
 path = "mirrorboards-core/mirrorboards-xkeys/xkeys-session"
 rev = "2d745b2cfa8f55e37c99695f8d0dc688934329ed"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-mirrornet/mirrornet-cli.git"
+path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-cli"
+rev = "61683fb7f33ee88aa90583496a83f83c767dc93c"
+
+[[repositories]]
+git = "git@github.com:open-graphene/open-graphene.git"
+path = "mirrorboards-core/mirrorboards-open-graphene/open-graphene"
+rev = "ef8bb3953df9d28957248b181657ef11f9326a88"

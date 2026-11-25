@@ -7,6 +7,13 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+### Added
+
+- `xx wallet`: the methods of Mirrornet's `cli_wallet`, under their own names. First
+  `get_global_properties` and `get_dynamic_global_properties`, the latter with `--watch`
+  (a line per block until Ctrl-C); `-o json` prints the node's object, `--network` picks the
+  network (the built-in `mirrorboards` by default).
+
 ## [0.2.0] - 2026-11-25
 
 ### Added

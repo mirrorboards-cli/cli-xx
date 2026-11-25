@@ -13,7 +13,10 @@ members = [
     "mirrorboards-core/mirrorboards-xkeys/xkeys-ctap",
     "mirrorboards-core/mirrorboards-xkeys/xkeys-session",
 ]
-exclude = ["mirrorboards-core/mirrorboards-mirrornet"]
+exclude = [
+    "mirrorboards-core/mirrorboards-mirrornet",
+    "mirrorboards-core/mirrorboards-open-graphene",
+]
 resolver = "3"
 
 [workspace.package]

@@ -30,6 +30,9 @@ enum Command {
     /// Vaults: where your identities' keys are kept
     #[command(subcommand)]
     Vault(xkeys_cli::xx::vault::Command),
+    /// Mirrornet: the methods of cli_wallet, with keys from your vaults
+    #[command(subcommand)]
+    Wallet(mirrornet_cli::xx::wallet::Command),
     /// Releases of xx: sign one before it goes to GitHub
     #[command(subcommand)]
     Release(release::Command),
@@ -73,6 +76,14 @@ fn run(command: Command) -> Result<()> {
                 .context("cannot start the async runtime")?;
 
             runtime.block_on(xkeys_cli::xx::vault::run(command))
+        }
+        Command::Wallet(command) => {
+            let runtime = tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .context("cannot start the async runtime")?;
+
+            runtime.block_on(mirrornet_cli::xx::wallet::run(command))
         }
         Command::Release(command) => {
             let runtime = tokio::runtime::Builder::new_current_thread()

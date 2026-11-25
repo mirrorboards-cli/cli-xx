@@ -27,6 +27,8 @@ tokio = { version = "1", features = ["rt"] }
 xkeys-cli = { path = "../../mirrorboards-xkeys/xkeys-cli" }
 # `xx stacks …`: the Pulumi platforms, from xstacks' `xx` module.
 mirrorboards-xstacks = { path = "../../mirrorboards-dev/dev-cli-xstacks" }
+# `xx wallet …`: the methods of Mirrornet's cli_wallet, from mirrornet-cli's `xx` module.
+mirrornet-cli = { path = "../../mirrorboards-mirrornet/mirrornet-cli" }
 # `xx update`: the newest release of xx on GitHub, its archive and the swap of this program.
 self_update = { version = "0.42", default-features = false, features = ["archive-tar", "compression-flate2", "rustls"] }
 sha2 = "0.10"
