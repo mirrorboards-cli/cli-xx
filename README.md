@@ -24,6 +24,7 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | Polecenie | Co robi |
 | --- | --- |
 | `xx vault create <NAME>` | zakłada skarbiec (`xkeys-cli/src/xx/vault/create.rs`) |
+| `xx vault list [NAME]...` | tabela skarbców jak `kubectl get`; `-o wide|name|json` (`xkeys-cli/src/xx/vault/list.rs`) |
 | `xx version` | wypisuje wersję `xx` |
 
 ## Nowe polecenie
