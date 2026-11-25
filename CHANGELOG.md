@@ -44,7 +44,7 @@ lines under its version, and the section becomes the notes of the GitHub release
 - `xx wallet` data rooms and fee grants, with room keys made in the vault: `create_data_room`,
   `update_data_room`, `delete_data_room`, `add_data_room_member`, `update_data_room_member`,
   `remove_data_room_member`, `rotate_data_room_key`, `revoke_content_card_grant`,
-  `remove_content_card`, `create_fee_grant`, `update_fee_grant`, `revoke_fee_grant`.
+  `remove_content_card`, `grant_content_card` (the vault reseals the card's key), `create_fee_grant`, `update_fee_grant`, `revoke_fee_grant`.
 - Tab completion: `xx completion fish|zsh|bash`. The shell asks xx at every Tab, so it also
   completes vault names, identities as `<VAULT>/<IDENTITY>` and networks. `install.sh` sets it up
   for fish (`~/.config/fish/completions/xx.fish`) and zsh (a line in `~/.zshrc`).
