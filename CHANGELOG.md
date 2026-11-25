@@ -7,6 +7,13 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+### Added
+
+- `xx wallet register_identity <VAULT>/<IDENTITY> --registrar <VAULT>/<IDENTITY>`: an account
+  from the identity's owner, active and memo keys, named as the identity, bound to it in the vault.
+- `xx wallet link_identity <VAULT>/<IDENTITY> <ACCOUNT>`: binds an existing account after checking
+  its keys on chain, so `list_my_accounts` and the identity show it.
+
 ### Changed
 
 - `xx wallet register_account` gives the new account the memo key of the identity named as
