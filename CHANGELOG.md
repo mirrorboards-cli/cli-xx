@@ -7,6 +7,8 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-25
+
 ### Added
 
 - `xx vault guard local add|remove <NAME> yubikey [--key <ID>]`: a YubiKey that unlocks the vault
@@ -17,8 +19,10 @@ lines under its version, and the section becomes the notes of the GitHub release
   code, and the plugged-in key becomes the local guard.
 - `xx release sign <FILE> --version <TAG> --identity <VAULT>/<IDENTITY>`: a release archive
   signed by an XKeys identity through its vault session, as `<FILE>.sig`.
-- `xx update` checks a release's signature against the key built into xx, once a build carries
-  one; until then it checks the sha256 alone and says so.
+- `xx update` installs only releases signed by a key built into xx: from this release on,
+  `xx-releases/releaser` (`0226c910…9a25a370`). Updating from 0.1.0, which trusts no key yet,
+  checks the sha256 alone.
+- Releases are built in GitHub Actions as drafts, which the owner signs and publishes.
 
 ### Fixed
 
@@ -48,5 +52,6 @@ The first release, for macOS on Apple Silicon (macOS 15 or newer).
   identity, chosen by itself when one vault here has a slot.
 - `xx update` and `install.sh`: install and update from the GitHub releases, checked by sha256.
 
-[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/mirrorboards-cli/cli-xx/releases/tag/v0.1.0

@@ -12,7 +12,10 @@ use sha2::{Digest, Sha256};
 /// vault kept for signing alone (owner, 2026-11-25). More than one lets a spare key, or the next
 /// one, sign; a release signed by a trusted key may bring a new list. Empty until the owner names
 /// them: this build then checks releases by their sha256 alone.
-pub const RELEASE_KEYS: &[&str] = &[];
+pub const RELEASE_KEYS: &[&str] = &[
+    // xx-releases/releaser, the owner's vault for signing releases (2026-11-25).
+    "0226c910a8bc0bfdd41fd92bd241159d5dc9b6a580ff93e900cef3b31c9a25a370",
+];
 
 const DOMAIN: &str = "xx release v1";
 const FORMAT: &str = "xx-release-signature-1";
