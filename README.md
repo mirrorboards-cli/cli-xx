@@ -27,14 +27,17 @@ pisać, w `~/.local/bin` (inny katalog: `XX_INSTALL_DIR`). Wydania to tagi `v<we
 ## Wydanie
 
 1. Wpisy z **Unreleased** w `CHANGELOG.md` przechodzą pod nową wersję, a `Cargo.toml` dostaje
-   tę wersję.
-2. Workflow **Release** (GitHub Actions, `workflow_dispatch` z tagiem, np. `v0.2.0`) pobiera
-   prywatne zależności przypięte w `.github-ci/mirror.toml` (`mctl sync`, sekret `MCTL_SSH_KEY`),
-   buduje `scripts/build-release-macos.sh` na macOS i zakłada szkic wydania z archiwum, `.sha256`
-   i opisem z changelogu.
-3. Właściciel pobiera archiwum, podpisuje je (`xx release sign xx-macos-arm64.tar.gz --version
-   v0.2.0 --identity <VAULT>/<IDENTITY>`), dokłada `.sig` do szkicu (`gh release upload`) i
-   publikuje wydanie.
+   tę wersję. Przypięcia w `.github-ci/mirror.toml` idą na bieżący `main` zależności (CI buduje
+   z przypiętych commitów). Wszystko wypchnięte na `main`.
+2. `xx release publish v0.3.0 --identity xx-releases/releaser` robi resztę:
+   - uruchamia workflow **Release** (GitHub Actions: `mctl sync` przypiętych zależności z sekretem
+     `MCTL_SSH_KEY`, `scripts/build-release-macos.sh` na macOS) i czeka na szkic wydania
+     z archiwum, `.sha256` i opisem z changelogu, około 15 minut;
+   - pobiera archiwum, sprawdza sha256, podpisuje je tożsamością (zablokowany skarbiec otwiera
+     się na to jedno polecenie), sprawdza podpis kluczami `RELEASE_KEYS` jak `xx update`;
+   - wgrywa `.sig` i publikuje wydanie; z `--draft` zostawia szkic do obejrzenia.
+   Gdy szkic z archiwum już istnieje (np. po przerwanym podpisie), polecenie go nie buduje
+   ponownie. Potrzebuje zalogowanego `gh`.
 
 ## Zmiany
 
@@ -68,6 +71,7 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | `xx vault list [NAME]...` | tabela skarbców jak `kubectl get`; `-o wide|name|json|table` (`xkeys-cli/src/xx/vault/list.rs`) |
 | `xx wallet get_global_properties` | parametry łańcucha Mirrornet, metoda `cli_wallet` (`mirrornet-cli/src/xx/wallet/get_global_properties.rs`) |
 | `xx wallet get_dynamic_global_properties [--watch]` | bieżący stan łańcucha; `--watch` wiersz na blok (`mirrornet-cli/src/xx/wallet/get_dynamic_global_properties.rs`) |
+| `xx release publish <TAG> --identity <VAULT>/<IDENTITY> [--draft]` | buduje w CI, podpisuje i publikuje wydanie `xx` (`src/commands/release.rs`) |
 | `xx update [--check] [--version <TAG>]` | podmienia `xx` na najnowsze wydanie z GitHuba (`src/commands/update.rs`) |
 | `xx version` | wypisuje wersję `xx` |
 

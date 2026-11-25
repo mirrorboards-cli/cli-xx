@@ -33,7 +33,7 @@ enum Command {
     /// Mirrornet: the methods of cli_wallet, with keys from your vaults
     #[command(subcommand)]
     Wallet(mirrornet_cli::xx::wallet::Command),
-    /// Releases of xx: sign one before it goes to GitHub
+    /// Releases of xx: build, sign and publish one
     #[command(subcommand)]
     Release(release::Command),
     /// Update xx to its newest release on GitHub

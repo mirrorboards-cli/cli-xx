@@ -9,10 +9,18 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ### Added
 
+- `xx release publish <TAG> --identity <VAULT>/<IDENTITY> [--draft]`: the whole release in one
+  command. GitHub Actions builds the draft, the identity signs its archive (a locked vault opens
+  for this command only), the signature is checked as `xx update` checks it, and the release is
+  published.
 - `xx wallet`: the methods of Mirrornet's `cli_wallet`, under their own names. First
   `get_global_properties` and `get_dynamic_global_properties`, the latter with `--watch`
   (a line per block until Ctrl-C); `-o json` prints the node's object, `--network` picks the
   network (the built-in `mirrorboards` by default).
+
+### Removed
+
+- `xx release sign`, replaced by `xx release publish`.
 
 ## [0.2.0] - 2026-11-25
 
