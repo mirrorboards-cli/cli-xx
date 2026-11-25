@@ -36,6 +36,11 @@ lines under its version, and the section becomes the notes of the GitHub release
   `sign_transaction`, `sign_transaction2`, `add_transaction_signature` (send only with
   `--broadcast`, as in cli_wallet), `broadcast_transaction`; and `update_account_keys`, outside
   cli_wallet, to set an account's owner, active or memo key from a vault's identity.
+- `xx wallet` assets, market and HTLCs: `create_asset`, `update_asset`, `update_asset_issuer`,
+  `update_bitasset`, `update_asset_feed_producers`, `publish_asset_feed`, `issue_asset`,
+  `reserve_asset`, `fund_asset_fee_pool`, `claim_asset_fee_pool`, `global_settle_asset`,
+  `settle_asset`, `bid_collateral`, `whitelist_account`, `sell_asset`, `borrow_asset`,
+  `borrow_asset_ext`, `cancel_order`, `htlc_create`, `htlc_redeem`, `htlc_extend`.
 - Tab completion: `xx completion fish|zsh|bash`. The shell asks xx at every Tab, so it also
   completes vault names, identities as `<VAULT>/<IDENTITY>` and networks. `install.sh` sets it up
   for fish (`~/.config/fish/completions/xx.fish`) and zsh (a line in `~/.zshrc`).
