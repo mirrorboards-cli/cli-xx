@@ -1,0 +1,35 @@
+# The workspace root of the CI layout of the release build (.github/workflows/release.yml), as the
+# workspace's own root Cargo.toml is for these crates: the xkeys crates sit under it without a
+# workspace of their own, so they are its members, and xkeys-format inherits from it. The package
+# fields and dependencies are those of the workspace's root.
+# Repositories with a workspace of their own (cli-xx, cli-runtime, xkeys-cli, xstacks, the
+# <x>-korea-api servers) keep it.
+[workspace]
+members = [
+    "mirrorboards-core/mirrorboards-xkeys/xkeys-format",
+    "mirrorboards-core/mirrorboards-xkeys/xkeys-core",
+    "mirrorboards-core/mirrorboards-xkeys/xkeys-chain",
+    "mirrorboards-core/mirrorboards-xkeys/xkeys-auth-rs",
+    "mirrorboards-core/mirrorboards-xkeys/xkeys-ctap",
+    "mirrorboards-core/mirrorboards-xkeys/xkeys-session",
+]
+exclude = ["mirrorboards-core/mirrorboards-mirrornet"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/cora-rs/workspace"
+
+[workspace.dependencies]
+axum = { version = "0.8", features = ["macros", "tokio"] }
+clap = { version = "4.5", features = ["std", "string", "derive"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+thiserror = "2"
+toml = "0.8"
+tokio = { version = "1", features = ["full", "tracing"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+utoipa = { version = "5.4.0", features = ["axum_extras", "preserve_path_order"] }

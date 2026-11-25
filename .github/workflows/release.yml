@@ -46,6 +46,7 @@ jobs:
         run: |
           mkdir -p workspace
           mv cli-xx/.github-ci/mirrorboards-core workspace/
+          cp cli-xx/.github-ci/Cargo.toml workspace/Cargo.toml
           mkdir -p workspace/mirrorboards-core/mirrorboards-cli
           rsync -a --exclude .git --exclude .github-ci cli-xx/ workspace/mirrorboards-core/mirrorboards-cli/cli-xx/
           tar -czf workspace.tar.gz -C workspace .
