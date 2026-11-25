@@ -33,6 +33,7 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | `xx stacks init <PATH> --identity <VAULT>/<IDENTITY>` | zakłada albo sprawdza hasło platformy (`dev-cli-xstacks/src/xx/stacks/init.rs`) |
 | `xx stacks deploy <PATH>` | wdraża stack, grupę albo platformę (`dev-cli-xstacks/src/xx/stacks/deploy.rs`) |
 | `xx stacks preview <PATH>` | pokazuje, co zmieniłby deploy (`dev-cli-xstacks/src/xx/stacks/preview.rs`) |
+| `xx vault guard list\|portable\|local …` | strażnicy skarbca (`xkeys-cli/src/xx/vault/guard.rs`) |
 | `xx vault list [NAME]...` | tabela skarbców jak `kubectl get`; `-o wide|name|json|table` (`xkeys-cli/src/xx/vault/list.rs`) |
 | `xx version` | wypisuje wersję `xx` |
 
