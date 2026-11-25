@@ -1,0 +1,24 @@
+[package]
+name = "cli-xx"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+publish = false
+description = "xx: the successor of the x command line. Its commands are added one by one as the owner defines them (cli-spec xx.typ); x keeps working beside it on the same core."
+
+# Its own workspace root; the shared core comes in as path dependencies.
+[workspace]
+
+[lib]
+name = "cli_xx"
+path = "src/lib.rs"
+
+[[bin]]
+name = "xx"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+# The core xx shares with x: networks, contexts, vault sessions, the actor, the output.
+cli-runtime = { path = "../cli-runtime" }
+clap = { version = "4.5", features = ["derive"] }
