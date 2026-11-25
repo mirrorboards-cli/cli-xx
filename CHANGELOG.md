@@ -17,6 +17,9 @@ lines under its version, and the section becomes the notes of the GitHub release
   `get_global_properties` and `get_dynamic_global_properties`, the latter with `--watch`
   (a line per block until Ctrl-C); `-o json` prints the node's object, `--network` picks the
   network (the built-in `mirrorboards` by default).
+- Tab completion: `xx completion fish|zsh|bash`. The shell asks xx at every Tab, so it also
+  completes vault names, identities as `<VAULT>/<IDENTITY>` and networks. `install.sh` sets it up
+  for fish (`~/.config/fish/completions/xx.fish`) and zsh (a line in `~/.zshrc`).
 
 ### Removed
 

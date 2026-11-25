@@ -22,6 +22,8 @@ anyhow = "1"
 # The core xx shares with x: networks, contexts, vault sessions, the actor, the output.
 cli-runtime = { path = "../cli-runtime" }
 clap = { version = "4.5", features = ["derive", "wrap_help"] }
+# `xx completion`: Tab completion that asks xx itself, so it knows the vaults and identities here.
+clap_complete = { version = "4.6", features = ["unstable-dynamic"] }
 tokio = { version = "1", features = ["rt"] }
 # `xx vault …`: the XKeys commands of xx live in xkeys-cli's `xx` module, beside x's own.
 xkeys-cli = { path = "../../mirrorboards-xkeys/xkeys-cli" }

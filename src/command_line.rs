@@ -4,9 +4,10 @@
 use std::process::ExitCode;
 
 use anyhow::{Context, Result};
-use clap::{Parser, Subcommand};
+use clap::{CommandFactory, Parser, Subcommand};
 
 use crate::commands::{release, update, version};
+use crate::completion;
 
 #[derive(Parser)]
 #[command(
@@ -40,10 +41,16 @@ enum Command {
     Update(update::Arguments),
     /// Print the version of xx
     Version,
+    /// Print the script that completes xx at a Tab, e.g. xx completion fish > ~/.config/fish/completions/xx.fish
+    Completion(completion::Arguments),
 }
 
 pub fn main() -> ExitCode {
     cli_runtime::plugin::restore_default_sigpipe();
+
+    // A Tab in the shell runs xx with COMPLETE set: it answers with candidates and exits here.
+    clap_complete::CompleteEnv::with_factory(|| completion::with_values(Arguments::command()))
+        .complete();
 
     let arguments = Arguments::parse();
 
@@ -94,6 +101,7 @@ fn run(command: Command) -> Result<()> {
             runtime.block_on(release::run(command))
         }
         Command::Update(arguments) => update::run(arguments),
+        Command::Completion(arguments) => completion::run(arguments),
         Command::Version => {
             version::run();
 

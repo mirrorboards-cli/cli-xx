@@ -57,6 +57,28 @@ mkdir -p "$folder"
 install -m 0755 "$work/xx" "$folder/xx"
 
 echo "xx installed in $folder/xx: $("$folder/xx" version)"
+
+# Tab completion for the shell the person logs in with. The shell asks xx at every Tab, so the
+# completion knows this computer's vaults and identities; reinstalling keeps it as it is.
+login_shell="$(basename "${SHELL:-}")"
+case "$login_shell" in
+  fish)
+    completions="${XDG_CONFIG_HOME:-$HOME/.config}/fish/completions"
+    mkdir -p "$completions"
+    "$folder/xx" completion fish > "$completions/xx.fish"
+    echo "Tab completion for fish: $completions/xx.fish"
+    ;;
+  zsh)
+    line='command -v xx > /dev/null && source <(xx completion zsh)'
+    if ! grep -qsF "$line" "$HOME/.zshrc"; then
+      printf '\n# Tab completion of xx\n%s\n' "$line" >> "$HOME/.zshrc"
+    fi
+    echo "Tab completion for zsh: ~/.zshrc (new shells)"
+    ;;
+  *)
+    echo "Tab completion: xx completion fish|zsh|bash prints the script for your shell"
+    ;;
+esac
 case ":$PATH:" in
   *":$folder:"*) ;;
   *) echo "add $folder to your PATH, e.g. in ~/.zshrc: export PATH=\"$folder:\$PATH\"" ;;

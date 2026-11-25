@@ -73,6 +73,7 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | `xx wallet get_dynamic_global_properties [--watch]` | bieżący stan łańcucha; `--watch` wiersz na blok (`mirrornet-cli/src/xx/wallet/get_dynamic_global_properties.rs`) |
 | `xx release publish <TAG> --identity <VAULT>/<IDENTITY> [--draft]` | buduje w CI, podpisuje i publikuje wydanie `xx` (`src/commands/release.rs`) |
 | `xx update [--check] [--version <TAG>]` | podmienia `xx` na najnowsze wydanie z GitHuba (`src/commands/update.rs`) |
+| `xx completion fish\|zsh\|bash` | skrypt dopełniania po Tab: polecenia, flagi, skarbce, tożsamości, sieci (`src/completion.rs`); `install.sh` zakłada go sam |
 | `xx version` | wypisuje wersję `xx` |
 
 ## Nowe polecenie

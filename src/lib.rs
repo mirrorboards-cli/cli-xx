@@ -5,6 +5,7 @@
 //!
 //! - `command_line`: the parser, the dispatch, the error line and the exit codes.
 //! - `commands`: xx's own commands, one file each.
+//! - `completion`: Tab completion, with the vaults, identities and networks of this computer.
 //!
 //! A tool's group of commands lives in the tool's crate, in its `xx` module (`xx vault` in
 //! `xkeys-cli`), beside `x`'s own command line there; this crate mounts the groups. Retiring `x`
@@ -12,6 +13,7 @@
 
 mod command_line;
 mod commands;
+mod completion;
 
 pub use command_line::main;
 pub mod release_signature;
