@@ -14,3 +14,4 @@ mod command_line;
 mod commands;
 
 pub use command_line::main;
+pub mod release_signature;

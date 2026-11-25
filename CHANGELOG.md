@@ -15,6 +15,15 @@ lines under its version, and the section becomes the notes of the GitHub release
   the new recovery code.
 - `xx vault import --local-guard yubikey --with recovery-code`: the copy opens with its recovery
   code, and the plugged-in key becomes the local guard.
+- `xx release sign <FILE> --version <TAG> --identity <VAULT>/<IDENTITY>`: a release archive
+  signed by an XKeys identity through its vault session, as `<FILE>.sig`.
+- `xx update` checks a release's signature against the key built into xx, once a build carries
+  one; until then it checks the sha256 alone and says so.
+
+### Fixed
+
+- A vault that opens only with YubiKeys waits for one instead of asking a paper code it has not
+  (in `x` too).
 
 ### Changed
 

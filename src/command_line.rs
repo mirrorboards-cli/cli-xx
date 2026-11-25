@@ -6,7 +6,7 @@ use std::process::ExitCode;
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 
-use crate::commands::{update, version};
+use crate::commands::{release, update, version};
 
 #[derive(Parser)]
 #[command(
@@ -30,6 +30,9 @@ enum Command {
     /// Vaults: where your identities' keys are kept
     #[command(subcommand)]
     Vault(xkeys_cli::xx::vault::Command),
+    /// Releases of xx: sign one before it goes to GitHub
+    #[command(subcommand)]
+    Release(release::Command),
     /// Update xx to its newest release on GitHub
     Update(update::Arguments),
     /// Print the version of xx
@@ -70,6 +73,14 @@ fn run(command: Command) -> Result<()> {
                 .context("cannot start the async runtime")?;
 
             runtime.block_on(xkeys_cli::xx::vault::run(command))
+        }
+        Command::Release(command) => {
+            let runtime = tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .context("cannot start the async runtime")?;
+
+            runtime.block_on(release::run(command))
         }
         Command::Update(arguments) => update::run(arguments),
         Command::Version => {

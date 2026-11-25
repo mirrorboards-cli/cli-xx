@@ -18,6 +18,8 @@ use self_update::{ArchiveKind, Compression, Download, Extract};
 use serde::Serialize;
 use sha2::{Digest, Sha256};
 
+use crate::release_signature::{RELEASE_KEY, ReleaseSignature};
+
 const REPOSITORY_OWNER: &str = "mirrorboards-cli";
 const REPOSITORY_NAME: &str = "cli-xx";
 const PROGRAM: &str = "xx";
@@ -143,8 +145,9 @@ fn install(release: &Release, asset_name: &str) -> Result<()> {
         )
         .download_to(&mut expected)
         .context("cannot download the checksum")?;
-    check_sha256(&archive, &expected)?;
+    let archive_sha256 = check_sha256(&archive, &expected)?;
     eprintln!("sha256 ok");
+    check_signature(release, asset_name, &archive_sha256)?;
 
     Extract::from_source(&archive)
         .archive(ArchiveKind::Tar(Some(Compression::Gz)))
@@ -188,8 +191,39 @@ fn download(asset: &ReleaseAsset, to: &Path) -> Result<()> {
         .with_context(|| format!("cannot download {}", asset.name))
 }
 
-/// The archive's sha256 must be the first word of the checksum file.
-fn check_sha256(archive: &Path, checksum_file: &[u8]) -> Result<()> {
+/// The release's signature, when this build trusts a release key; without one the sha256 is all
+/// that is checked, and that is said.
+fn check_signature(release: &Release, asset_name: &str, archive_sha256: &str) -> Result<()> {
+    let Some(trusted_key) = RELEASE_KEY else {
+        eprintln!(
+            "this build trusts no release key yet: the release is checked by its sha256 only"
+        );
+        return Ok(());
+    };
+
+    let signature_asset = asset_of(release, &format!("{asset_name}.sig"))
+        .context("the release is not signed, and xx installs only signed releases")?;
+    let mut text = Vec::new();
+    Download::from_url(&signature_asset.download_url)
+        .set_header(
+            reqwest_accept(),
+            "application/octet-stream"
+                .parse()
+                .expect("a valid header value"),
+        )
+        .download_to(&mut text)
+        .context("cannot download the release's signature")?;
+    let signature: ReleaseSignature =
+        serde_json::from_slice(&text).context("the release's signature is no JSON")?;
+
+    signature.check(&release.version, archive_sha256, trusted_key)?;
+    eprintln!("signature ok ({})", signature.signer);
+
+    Ok(())
+}
+
+/// The archive's sha256 must be the first word of the checksum file; returns it.
+fn check_sha256(archive: &Path, checksum_file: &[u8]) -> Result<String> {
     let text = String::from_utf8_lossy(checksum_file);
     let expected = text
         .split_whitespace()
@@ -209,7 +243,7 @@ fn check_sha256(archive: &Path, checksum_file: &[u8]) -> Result<()> {
         );
     }
 
-    Ok(())
+    Ok(actual)
 }
 
 fn line_of(updated: &Updated, newer: bool, only_checks: bool) -> String {
