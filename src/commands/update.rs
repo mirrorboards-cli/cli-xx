@@ -17,6 +17,7 @@ use self_update::update::{Release, ReleaseAsset};
 use self_update::{ArchiveKind, Compression, Download, Extract};
 use serde::Serialize;
 use sha2::{Digest, Sha256};
+use xkeys_cli::xx::vault::lock::{Locked, lock_every_unlocked_vault};
 
 use crate::release_signature::{RELEASE_KEYS, ReleaseSignature};
 
@@ -54,6 +55,8 @@ struct Updated {
     to: String,
     /// Whether this program was replaced now.
     replaced: bool,
+    /// The vaults whose sessions were locked because they run the program that was replaced.
+    locked_vaults: Vec<String>,
 }
 
 pub fn run(arguments: Arguments) -> Result<()> {
@@ -74,24 +77,66 @@ pub fn run(arguments: Arguments) -> Result<()> {
     let asked_for_this_one = arguments.version.is_some() && target != current;
     let replaces = !arguments.check && (newer || asked_for_this_one);
 
+    let mut locked_sessions = Vec::new();
     if replaces {
         install(release, &asset_name)?;
+        locked_sessions = lock_sessions_of_the_replaced_program();
     }
 
     let updated = Updated {
         from: current.to_owned(),
         to: target,
         replaced: replaces,
+        locked_vaults: locked_sessions
+            .iter()
+            .map(|locked| locked.vault.clone())
+            .collect(),
     };
     match arguments.output {
         Format::Json => {
             let text = serde_json::to_string_pretty(&updated).context("the result is no JSON")?;
             println!("{text}");
         }
-        Format::Text => println!("{}", line_of(&updated, newer, arguments.check)),
+        Format::Text => {
+            println!("{}", line_of(&updated, newer, arguments.check));
+            for locked in &locked_sessions {
+                println!("{}", locked_line(locked));
+            }
+        }
     }
 
     Ok(())
+}
+
+/// Every unlocked vault's session still runs the program that was just replaced, and would
+/// refuse what the new one asks of it; locking them lets the next command open them again with
+/// the new program. A failure does not undo the update: it is said, and the person locks the
+/// vaults by hand.
+fn lock_sessions_of_the_replaced_program() -> Vec<Locked> {
+    let locked = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .context("cannot start the async runtime")
+        .and_then(|runtime| runtime.block_on(lock_every_unlocked_vault()));
+
+    match locked {
+        Ok(locked) => locked,
+        Err(error) => {
+            eprintln!(
+                "xx was updated, but not every session was locked ({error:#}); \
+                 xx vault lock --all locks them, as they run the old xx"
+            );
+
+            Vec::new()
+        }
+    }
+}
+
+/// `locked mirrornet-mainnet-accounts: its session ran xx 0.3.0`
+fn locked_line(locked: &Locked) -> String {
+    let ran = locked.session_ran.as_deref().unwrap_or("an unknown xx");
+
+    format!("locked {}: its session ran {ran}", locked.vault)
 }
 
 /// `xx-macos-arm64.tar.gz`: the archive of this system and processor.
@@ -247,7 +292,9 @@ fn check_sha256(archive: &Path, checksum_file: &[u8]) -> Result<String> {
 }
 
 fn line_of(updated: &Updated, newer: bool, only_checks: bool) -> String {
-    let Updated { from, to, replaced } = updated;
+    let Updated {
+        from, to, replaced, ..
+    } = updated;
 
     match (replaced, newer, only_checks) {
         (true, _, _) => format!("xx: updated from {from} to {to}"),
@@ -278,6 +325,20 @@ mod tests {
 
         assert!(check_sha256(&archive, right.as_bytes()).is_ok());
         assert!(check_sha256(&archive, b"0000  xx.tar.gz").is_err());
+    }
+
+    #[test]
+    fn a_locked_session_is_reported_with_the_xx_it_ran() {
+        let locked = Locked {
+            vault: "mirrornet-mainnet-accounts".to_owned(),
+            was_unlocked: true,
+            session_ran: Some("xx 0.3.0".to_owned()),
+        };
+
+        assert_eq!(
+            locked_line(&locked),
+            "locked mirrornet-mainnet-accounts: its session ran xx 0.3.0"
+        );
     }
 
     #[test]

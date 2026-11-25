@@ -9,6 +9,10 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ### Added
 
+- A vault session started by an older xx reopens with this one at the terminal, for the time it
+  had left; `xx vault list` shows it as `Unlocked (old)`, and `xx update` locks every session,
+  as they run the old program.
+
 - `xx wallet register_identity <VAULT>/<IDENTITY> --registrar <VAULT>/<IDENTITY>`: an account
   from the identity's owner, active and memo keys, named as the identity, bound to it in the vault.
 - `xx wallet link_identity <VAULT>/<IDENTITY> <ACCOUNT>`: binds an existing account after checking

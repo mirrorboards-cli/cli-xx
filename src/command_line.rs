@@ -48,6 +48,9 @@ enum Command {
 pub fn main() -> ExitCode {
     cli_runtime::plugin::restore_default_sigpipe();
 
+    // Sessions this program starts report it by this version (`xx vault list`, `xx update`).
+    xkeys_cli::session::program::register_version(env!("CARGO_PKG_VERSION"));
+
     // A Tab in the shell runs xx with COMPLETE set: it answers with candidates and exits here.
     clap_complete::CompleteEnv::with_factory(|| completion::with_values(Arguments::command()))
         .complete();
