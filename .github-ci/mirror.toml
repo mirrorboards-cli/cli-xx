@@ -4,7 +4,7 @@
 [[repositories]]
 git = "git@github.com:mirrorboards-cli/cli-runtime.git"
 path = "mirrorboards-core/mirrorboards-cli/cli-runtime"
-rev = "7e5d8f3549f4feb4b21575d926182e066c4ca0da"
+rev = "8c79c42b0fb8a8aea710b293d022baee495481af"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-dev/dev-cli-xstacks.git"
@@ -12,9 +12,24 @@ path = "mirrorboards-core/mirrorboards-dev/dev-cli-xstacks"
 rev = "95a6e20fb981cfc4e8c0097538bf04ea1c04f6ae"
 
 [[repositories]]
+git = "git@github.com:mirrorboards-mirrornet/mirrornet-cli.git"
+path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-cli"
+rev = "c758f9862ba4bd9a5aa62e410c4db3860e44f700"
+
+[[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-query-korea-api.git"
 path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-query-korea-api"
 rev = "26499e1885f8ee43e2b068505438c74a34cc7eb8"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-mirrornet/mirrornet-rs.git"
+path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-rs"
+rev = "66dec5121bf0bd23e2a6bf61d73fad23d878c05f"
+
+[[repositories]]
+git = "git@github.com:open-graphene/open-graphene.git"
+path = "mirrorboards-core/mirrorboards-open-graphene/open-graphene"
+rev = "ef8bb3953df9d28957248b181657ef11f9326a88"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xauth/xauth-korea-api.git"
@@ -29,12 +44,12 @@ rev = "853f0560878a0bc1f664de4d4bc6d3cb1b6cc840"
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-chain.git"
 path = "mirrorboards-core/mirrorboards-xkeys/xkeys-chain"
-rev = "e081db9921e3f96607bd077375d2a6c2e7db6ca7"
+rev = "8764b22907b5d6f26d25feac0aa989d3ffe69600"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-cli.git"
 path = "mirrorboards-core/mirrorboards-xkeys/xkeys-cli"
-rev = "9c2b245e218524ea7e66b6235d9c69b259d6c4d2"
+rev = "38f71f3e6b58e3202280da12503d2a5b4dfbdb39"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-core.git"
@@ -59,14 +74,4 @@ rev = "96788a34de9067be866027721e94e025f32e0a02"
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-session.git"
 path = "mirrorboards-core/mirrorboards-xkeys/xkeys-session"
-rev = "2d745b2cfa8f55e37c99695f8d0dc688934329ed"
-
-[[repositories]]
-git = "git@github.com:mirrorboards-mirrornet/mirrornet-cli.git"
-path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-cli"
-rev = "61683fb7f33ee88aa90583496a83f83c767dc93c"
-
-[[repositories]]
-git = "git@github.com:open-graphene/open-graphene.git"
-path = "mirrorboards-core/mirrorboards-open-graphene/open-graphene"
-rev = "ef8bb3953df9d28957248b181657ef11f9326a88"
+rev = "83406657138a469f30d29fd7b0c6f71496f98073"

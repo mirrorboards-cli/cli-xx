@@ -7,6 +7,8 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-25
+
 ### Added
 
 - `xx release publish <TAG> --identity <VAULT>/<IDENTITY> [--draft]`: the whole release in one
@@ -98,6 +100,7 @@ The first release, for macOS on Apple Silicon (macOS 15 or newer).
   identity, chosen by itself when one vault here has a slot.
 - `xx update` and `install.sh`: install and update from the GitHub releases, checked by sha256.
 
-[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/mirrorboards-cli/cli-xx/releases/tag/v0.1.0
