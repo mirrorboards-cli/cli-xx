@@ -13,8 +13,9 @@ lines under its version, and the section becomes the notes of the GitHub release
   had left; `xx vault list` shows it as `Unlocked (old)`, and `xx update` locks every session,
   as they run the old program.
 
-- `xx wallet register_identity <VAULT>/<IDENTITY> --registrar <VAULT>/<IDENTITY>`: an account
-  from the identity's owner, active and memo keys, named as the identity, bound to it in the vault.
+- `xx wallet create_account <VAULT>/<NAME> --registrar <VAULT>/<IDENTITY> [--fund <AMOUNT>]`: the
+  identity (made if the vault lacks it) becomes an account with its owner, active and memo keys,
+  bound to it in the vault, and `--fund` sends it MBT from the registrar.
 - `xx wallet link_identity <VAULT>/<IDENTITY> <ACCOUNT>`: binds an existing account after checking
   its keys on chain, so `list_my_accounts` and the identity show it.
 
