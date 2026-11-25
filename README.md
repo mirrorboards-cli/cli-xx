@@ -28,12 +28,11 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | `xx vault unlock <NAME>... \| --all` | otwiera skarbiec, sesja trzyma go otwartym (`xkeys-cli/src/xx/vault/unlock.rs`) |
 | `xx vault lock <NAME>... \| --all` | blokuje skarbiec teraz (`xkeys-cli/src/xx/vault/lock.rs`) |
 | `xx vault sync <NAME> [--to <URL>]` | synchronizuje teraz; `--to file://…` zaczyna synchronizację w folderze (`xkeys-cli/src/xx/vault/sync.rs`) |
-| `xx vault clone <URL> <NAME>` | pobiera skarbiec z folderu (`xkeys-cli/src/xx/vault/clone.rs`) |
 | `xx identity create <VAULT>/<NAME>` | tworzy tożsamość w odblokowanym skarbcu (`xkeys-cli/src/xx/identity/create.rs`) |
 | `xx stacks init <PATH> --identity <VAULT>/<IDENTITY>` | zakłada albo sprawdza hasło platformy (`dev-cli-xstacks/src/xx/stacks/init.rs`) |
 | `xx stacks deploy <PATH>` | wdraża stack, grupę albo platformę (`dev-cli-xstacks/src/xx/stacks/deploy.rs`) |
 | `xx stacks preview <PATH>` | pokazuje, co zmieniłby deploy (`dev-cli-xstacks/src/xx/stacks/preview.rs`) |
-| `xx vault import <FILE>` | przywraca skarbiec z kopii zapasowej (`xkeys-cli/src/xx/vault/import.rs`) |
+| `xx vault import <FILE> [NAME] [--sync]` | sprowadza skarbiec z pliku `.xkeys`; `--sync` synchronizuje w nim dalej (`xkeys-cli/src/xx/vault/import.rs`) |
 | `xx vault guard list\|portable\|local …` | strażnicy skarbca (`xkeys-cli/src/xx/vault/guard.rs`) |
 | `xx vault list [NAME]...` | tabela skarbców jak `kubectl get`; `-o wide|name|json|table` (`xkeys-cli/src/xx/vault/list.rs`) |
 | `xx version` | wypisuje wersję `xx` |
