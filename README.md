@@ -71,6 +71,7 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | `xx vault list [NAME]...` | tabela skarbców jak `kubectl get`; `-o wide|name|json|table` (`xkeys-cli/src/xx/vault/list.rs`) |
 | `xx wallet get_global_properties` | parametry łańcucha Mirrornet, metoda `cli_wallet` (`mirrornet-cli/src/xx/wallet/get_global_properties.rs`) |
 | `xx wallet get_dynamic_global_properties [--watch]` | bieżący stan łańcucha; `--watch` wiersz na blok (`mirrornet-cli/src/xx/wallet/get_dynamic_global_properties.rs`) |
+| `xx wallet import_balance <ACCOUNT> --identity <VAULT>/<IDENTITY> [--preview]` | odbiera salda z genesis spod kluczy tożsamości na konto (`mirrornet-cli/src/xx/wallet/import_balance.rs`) |
 | `xx release publish <TAG> --identity <VAULT>/<IDENTITY> [--draft]` | buduje w CI, podpisuje i publikuje wydanie `xx` (`src/commands/release.rs`) |
 | `xx update [--check] [--version <TAG>]` | podmienia `xx` na najnowsze wydanie z GitHuba (`src/commands/update.rs`) |
 | `xx completion fish\|zsh\|bash` | skrypt dopełniania po Tab: polecenia, flagi, skarbce, tożsamości, sieci (`src/completion.rs`); `install.sh` zakłada go sam |
