@@ -27,3 +27,11 @@ tokio = { version = "1", features = ["rt"] }
 xkeys-cli = { path = "../../mirrorboards-xkeys/xkeys-cli" }
 # `xx stacks …`: the Pulumi platforms, from xstacks' `xx` module.
 mirrorboards-xstacks = { path = "../../mirrorboards-dev/dev-cli-xstacks" }
+# `xx update`: the newest release of xx on GitHub, its archive and the swap of this program.
+self_update = { version = "0.42", default-features = false, features = ["archive-tar", "compression-flate2", "rustls"] }
+sha2 = "0.10"
+# The header types of the HTTP client self_update downloads with.
+reqwest = { version = "0.12", default-features = false }
+hex = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

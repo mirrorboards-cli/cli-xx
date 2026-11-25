@@ -6,7 +6,7 @@ use std::process::ExitCode;
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 
-use crate::commands::version;
+use crate::commands::{update, version};
 
 #[derive(Parser)]
 #[command(
@@ -30,6 +30,8 @@ enum Command {
     /// Vaults: where your identities' keys are kept
     #[command(subcommand)]
     Vault(xkeys_cli::xx::vault::Command),
+    /// Update xx to its newest release on GitHub
+    Update(update::Arguments),
     /// Print the version of xx
     Version,
 }
@@ -69,6 +71,7 @@ fn run(command: Command) -> Result<()> {
 
             runtime.block_on(xkeys_cli::xx::vault::run(command))
         }
+        Command::Update(arguments) => update::run(arguments),
         Command::Version => {
             version::run();
 

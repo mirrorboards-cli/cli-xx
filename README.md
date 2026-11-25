@@ -11,7 +11,20 @@ Grupa poleceń narzędzia leży w crate tego narzędzia, w module `xx` (`xx vaul
 `xkeys-cli/src/xx/`), obok wiersza poleceń `x`; ten crate tylko składa grupy. Wycofanie `x` usunie
 jego wiersze poleceń, a moduły `xx` zostaną.
 
-## Uruchomienie
+## Instalacja
+
+Najnowsze wydanie z GitHuba (macOS na Apple Silicon, macOS 15 lub nowszy):
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/mirrorboards-cli/cli-xx/main/install.sh | sh
+xx update                   # później: najnowsze wydanie w miejsce tego programu
+```
+
+`install.sh` sprawdza sha256 archiwum i kładzie `xx` w `/usr/local/bin`, a gdy nie można tam
+pisać, w `~/.local/bin` (inny katalog: `XX_INSTALL_DIR`). Wydania to tagi `v<wersja>` z
+`xx-macos-arm64.tar.gz` i `xx-macos-arm64.tar.gz.sha256`; wersja jest w `Cargo.toml`.
+
+## Uruchomienie ze źródeł
 
 ```sh
 cargo build                 # w tym katalogu; program trafia do wspólnego target/debug
@@ -36,6 +49,7 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | `xx vault remove <NAME>` | usuwa skarbiec z tego komputera (`xkeys-cli/src/xx/vault/remove.rs`) |
 | `xx vault guard list\|portable\|local …` | strażnicy skarbca (`xkeys-cli/src/xx/vault/guard.rs`) |
 | `xx vault list [NAME]...` | tabela skarbców jak `kubectl get`; `-o wide|name|json|table` (`xkeys-cli/src/xx/vault/list.rs`) |
+| `xx update [--check] [--version <TAG>]` | podmienia `xx` na najnowsze wydanie z GitHuba (`src/commands/update.rs`) |
 | `xx version` | wypisuje wersję `xx` |
 
 ## Nowe polecenie
