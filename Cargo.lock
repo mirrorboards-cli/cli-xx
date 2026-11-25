@@ -1949,6 +1949,7 @@ dependencies = [
  "graphene-chain-mirrornet-api",
  "graphene-chain-mirrornet-bindings",
  "hex",
+ "open-graphene-core",
  "open-graphene-fc",
  "open-graphene-transport",
  "ripemd",

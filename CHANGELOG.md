@@ -29,6 +29,13 @@ lines under its version, and the section becomes the notes of the GitHub release
   `transfer`, `transfer2` (memos sealed by the vault), `register_account` (keys as `MBT…` or
   `<VAULT>/<IDENTITY>`), `upgrade_account`, `account_store_map`; and `sign_memo`, `read_memo`,
   `sign_message`, which send nothing. A preview prints the operations field by field.
+- `xx wallet` governance: `create_witness`, `update_witness`, `create_committee_member`,
+  `withdraw_vesting`, `create_worker`, `update_worker_votes`, `vote_for_witness`,
+  `vote_for_committee_member`, `set_voting_proxy`, `set_desired_witness_and_committee_member_count`,
+  `propose_parameter_change`, `propose_fee_change`, `approve_proposal`; transactions from JSON:
+  `sign_transaction`, `sign_transaction2`, `add_transaction_signature` (send only with
+  `--broadcast`, as in cli_wallet), `broadcast_transaction`; and `update_account_keys`, outside
+  cli_wallet, to set an account's owner, active or memo key from a vault's identity.
 - Tab completion: `xx completion fish|zsh|bash`. The shell asks xx at every Tab, so it also
   completes vault names, identities as `<VAULT>/<IDENTITY>` and networks. `install.sh` sets it up
   for fish (`~/.config/fish/completions/xx.fish`) and zsh (a line in `~/.zshrc`).
