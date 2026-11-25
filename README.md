@@ -24,6 +24,11 @@ xx update                   # później: najnowsze wydanie w miejsce tego progra
 pisać, w `~/.local/bin` (inny katalog: `XX_INSTALL_DIR`). Wydania to tagi `v<wersja>` z
 `xx-macos-arm64.tar.gz` i `xx-macos-arm64.tar.gz.sha256`; wersja jest w `Cargo.toml`.
 
+## Zmiany
+
+Każda zmiana `xx` trafia od razu do [`CHANGELOG.md`](CHANGELOG.md) pod **Unreleased**; wydanie
+przenosi te wpisy pod swoją wersję, a ta sekcja jest opisem wydania na GitHubie.
+
 ## Uruchomienie ze źródeł
 
 ```sh
