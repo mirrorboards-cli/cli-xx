@@ -25,6 +25,10 @@ lines under its version, and the section becomes the notes of the GitHub release
   witnesses and the committee, HTLCs, transactions (`get_transaction_id`, `serialize_transaction`,
   `get_transaction_signers`), signed messages, and Mirrornet's data rooms, content cards and fee
   grants. A node's refusal prints its message, not its whole stack.
+- `xx wallet` writes, signed by a vault's identity with `--preview` in place of `broadcast false`:
+  `transfer`, `transfer2` (memos sealed by the vault), `register_account` (keys as `MBT…` or
+  `<VAULT>/<IDENTITY>`), `upgrade_account`, `account_store_map`; and `sign_memo`, `read_memo`,
+  `sign_message`, which send nothing. A preview prints the operations field by field.
 - Tab completion: `xx completion fish|zsh|bash`. The shell asks xx at every Tab, so it also
   completes vault names, identities as `<VAULT>/<IDENTITY>` and networks. `install.sh` sets it up
   for fish (`~/.config/fish/completions/xx.fish`) and zsh (a line in `~/.zshrc`).

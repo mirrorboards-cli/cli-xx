@@ -4087,14 +4087,17 @@ dependencies = [
 name = "xkeys-chain"
 version = "0.1.0"
 dependencies = [
+ "aes",
  "aes-gcm",
  "base64 0.22.1",
  "bs58",
+ "cbc",
  "hex",
  "hkdf",
  "hmac",
  "k256",
  "ripemd",
+ "serde",
  "serde_json",
  "sha2 0.10.9",
  "unicode-normalization",
