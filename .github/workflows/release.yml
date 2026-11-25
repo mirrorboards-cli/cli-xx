@@ -1,0 +1,103 @@
+name: Release
+
+# Builds a release of xx and puts it in a draft GitHub release. The owner then signs the archive
+# (`xx release sign`), uploads the .sig, and publishes the release.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The release's tag, e.g. v0.2.0; cli-xx/Cargo.toml must carry the same version"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  sources:
+    name: Sources at their pinned commits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout cli-xx
+        uses: actions/checkout@v4
+        with:
+          path: cli-xx
+
+      - name: Setup SSH key file for mctl
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.MCTL_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keygen -y -f ~/.ssh/id_ed25519 > ~/.ssh/id_ed25519.pub
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Install mctl
+        # Prebuilt static binary from the mirrorboards-mctl dist branch, over the same SSH key.
+        run: |
+          git clone --depth 1 --branch dist git@github.com:mirrorboards-cli/mirrorboards-mctl.git /tmp/mctl-dist
+          (cd /tmp/mctl-dist && sha256sum -c mctl-linux-amd64.sha256)
+          sudo install -m 0755 /tmp/mctl-dist/mctl-linux-amd64 /usr/local/bin/mctl
+
+      - name: Sync the pinned dependencies with mctl
+        working-directory: cli-xx/.github-ci
+        run: mctl sync
+
+      - name: Lay out the workspace
+        # cli-xx reaches its dependencies by path, as in the workspace: put it beside them.
+        run: |
+          mkdir -p workspace
+          mv cli-xx/.github-ci/mirrorboards-core workspace/
+          mkdir -p workspace/mirrorboards-core/mirrorboards-cli
+          rsync -a --exclude .git --exclude .github-ci cli-xx/ workspace/mirrorboards-core/mirrorboards-cli/cli-xx/
+          tar -czf workspace.tar.gz -C workspace .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: workspace
+          path: workspace.tar.gz
+          retention-days: 1
+
+  macos-arm64:
+    name: Build for macOS arm64
+    needs: sources
+    runs-on: macos-15
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: workspace
+
+      - name: Unpack the workspace
+        run: mkdir -p workspace && tar -xzf workspace.tar.gz -C workspace
+
+      - name: Check the version
+        working-directory: workspace/mirrorboards-core/mirrorboards-cli/cli-xx
+        run: |
+          crate="v$(grep -m1 '^version' Cargo.toml | cut -d '"' -f 2)"
+          if [ "$crate" != "${{ inputs.version }}" ]; then
+            echo "Cargo.toml says $crate, the release is ${{ inputs.version }}" >&2
+            exit 1
+          fi
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build
+        env:
+          ROOT: ${{ github.workspace }}/workspace
+          VERSION: ${{ inputs.version }}
+        run: workspace/mirrorboards-core/mirrorboards-cli/cli-xx/scripts/build-release-macos.sh
+
+      - name: Draft the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          out="$RUNNER_TEMP/xx-release/$VERSION"
+          notes="$RUNNER_TEMP/notes.md"
+          awk -v v="${VERSION#v}" '
+            $0 ~ "^## \\[" v "\\]" { keep = 1; next }
+            keep && /^## \[/ { exit }
+            keep && /^\[[^]]+\]: / { exit }
+            keep { print }
+          ' workspace/mirrorboards-core/mirrorboards-cli/cli-xx/CHANGELOG.md > "$notes"
+          gh release create "$VERSION" --repo "$GITHUB_REPOSITORY" --draft \
+            --title "xx ${VERSION#v}" --notes-file "$notes" \
+            "$out/xx-macos-arm64.tar.gz" "$out/xx-macos-arm64.tar.gz.sha256"

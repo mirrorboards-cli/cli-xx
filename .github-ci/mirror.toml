@@ -1,0 +1,62 @@
+# Dependencies of the release build of xx in CI (`mctl sync` in this directory), at their
+# workspace paths. Pin them to the current `main` before a release.
+
+[[repositories]]
+git = "git@github.com:mirrorboards-cli/cli-runtime.git"
+path = "mirrorboards-core/mirrorboards-cli/cli-runtime"
+rev = "7e5d8f3549f4feb4b21575d926182e066c4ca0da"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-dev/dev-cli-xstacks.git"
+path = "mirrorboards-core/mirrorboards-dev/dev-cli-xstacks"
+rev = "95a6e20fb981cfc4e8c0097538bf04ea1c04f6ae"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-mirrornet/mirrornet-query-korea-api.git"
+path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-query-korea-api"
+rev = "26499e1885f8ee43e2b068505438c74a34cc7eb8"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xauth/xauth-korea-api.git"
+path = "mirrorboards-core/mirrorboards-xauth/xauth-korea-api"
+rev = "535a5ebf2757bce48aceb13befc7e2352486477a"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xkeys/xkeys-auth-rs.git"
+path = "mirrorboards-core/mirrorboards-xkeys/xkeys-auth-rs"
+rev = "853f0560878a0bc1f664de4d4bc6d3cb1b6cc840"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xkeys/xkeys-chain.git"
+path = "mirrorboards-core/mirrorboards-xkeys/xkeys-chain"
+rev = "e081db9921e3f96607bd077375d2a6c2e7db6ca7"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xkeys/xkeys-cli.git"
+path = "mirrorboards-core/mirrorboards-xkeys/xkeys-cli"
+rev = "9c2b245e218524ea7e66b6235d9c69b259d6c4d2"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xkeys/xkeys-core.git"
+path = "mirrorboards-core/mirrorboards-xkeys/xkeys-core"
+rev = "4a999d57f739b55f3a7de132a3327b417f273b83"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xkeys/xkeys-ctap.git"
+path = "mirrorboards-core/mirrorboards-xkeys/xkeys-ctap"
+rev = "6973bfa906de9518f0b83cc7fa9c256d7e3d0805"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xkeys/xkeys-format.git"
+path = "mirrorboards-core/mirrorboards-xkeys/xkeys-format"
+rev = "c461896e79181ac2ed1a6bc9ad059e345454613e"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xkeys/xkeys-korea-api.git"
+path = "mirrorboards-core/mirrorboards-xkeys/xkeys-korea-api"
+rev = "96788a34de9067be866027721e94e025f32e0a02"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xkeys/xkeys-session.git"
+path = "mirrorboards-core/mirrorboards-xkeys/xkeys-session"
+rev = "2d745b2cfa8f55e37c99695f8d0dc688934329ed"

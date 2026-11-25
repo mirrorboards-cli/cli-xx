@@ -24,6 +24,18 @@ xx update                   # później: najnowsze wydanie w miejsce tego progra
 pisać, w `~/.local/bin` (inny katalog: `XX_INSTALL_DIR`). Wydania to tagi `v<wersja>` z
 `xx-macos-arm64.tar.gz` i `xx-macos-arm64.tar.gz.sha256`; wersja jest w `Cargo.toml`.
 
+## Wydanie
+
+1. Wpisy z **Unreleased** w `CHANGELOG.md` przechodzą pod nową wersję, a `Cargo.toml` dostaje
+   tę wersję.
+2. Workflow **Release** (GitHub Actions, `workflow_dispatch` z tagiem, np. `v0.2.0`) pobiera
+   prywatne zależności przypięte w `.github-ci/mirror.toml` (`mctl sync`, sekret `MCTL_SSH_KEY`),
+   buduje `scripts/build-release-macos.sh` na macOS i zakłada szkic wydania z archiwum, `.sha256`
+   i opisem z changelogu.
+3. Właściciel pobiera archiwum, podpisuje je (`xx release sign xx-macos-arm64.tar.gz --version
+   v0.2.0 --identity <VAULT>/<IDENTITY>`), dokłada `.sig` do szkicu (`gh release upload`) i
+   publikuje wydanie.
+
 ## Zmiany
 
 Każda zmiana `xx` trafia od razu do [`CHANGELOG.md`](CHANGELOG.md) pod **Unreleased**; wydanie
