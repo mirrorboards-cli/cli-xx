@@ -16,14 +16,22 @@ brew install libfido2 openssl@3 cmake pkg-config
 fido2_prefix="$(brew --prefix libfido2)"
 openssl_prefix="$(brew --prefix openssl@3)"
 
-# A static libcbor 0.14.0, the version Homebrew's libfido2 is built against.
-mkdir -p "$WORK/deps/dl"
-curl -sSLf -o "$WORK/deps/dl/libcbor.tar.gz" \
-  https://github.com/PJK/libcbor/archive/refs/tags/v0.14.0.tar.gz
-echo "a8c1516e741562cf95aa4479c64916c3d4d2623e24fdc35e414e2320e7300aae  $WORK/deps/dl/libcbor.tar.gz" \
-  | shasum -a 256 -c -
-tar xzf "$WORK/deps/dl/libcbor.tar.gz" -C "$WORK/deps/dl"
-cmake -S "$WORK/deps/dl/libcbor-0.14.0" -B "$WORK/deps/cbor-build" \
+# A static libcbor of the version Homebrew's libfido2 is built against (Homebrew ships it only as a
+# .dylib): its source and sha256 come from Homebrew's formula, so the two always match.
+cbor_formula="$(brew info --json=v2 libcbor)"
+cbor_field() {
+  printf '%s' "$cbor_formula" | python3 -c "import json, sys; f = json.load(sys.stdin)['formulae'][0]; print($1)"
+}
+cbor_version="$(cbor_field "f['versions']['stable']")"
+cbor_url="$(cbor_field "f['urls']['stable']['url']")"
+cbor_sha256="$(cbor_field "f['urls']['stable']['checksum']")"
+echo "libcbor $cbor_version from $cbor_url"
+
+mkdir -p "$WORK/deps/dl" "$WORK/deps/src"
+curl -sSLf -o "$WORK/deps/dl/libcbor.tar.gz" "$cbor_url"
+echo "$cbor_sha256  $WORK/deps/dl/libcbor.tar.gz" | shasum -a 256 -c -
+tar xzf "$WORK/deps/dl/libcbor.tar.gz" -C "$WORK/deps/src" --strip-components 1
+cmake -S "$WORK/deps/src" -B "$WORK/deps/cbor-build" \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_SHARED_LIBS=OFF \
   -DWITH_EXAMPLES=OFF \
