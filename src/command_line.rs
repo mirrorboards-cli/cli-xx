@@ -24,6 +24,9 @@ enum Command {
     /// Identities: keys under a name, in a vault
     #[command(subcommand)]
     Identity(xkeys_cli::xx::identity::Command),
+    /// Pulumi platforms: deploy and preview their stacks
+    #[command(subcommand)]
+    Stacks(mirrorboards_xstacks::xx::stacks::Command),
     /// Vaults: where your identities' keys are kept
     #[command(subcommand)]
     Vault(xkeys_cli::xx::vault::Command),
@@ -48,6 +51,8 @@ pub fn main() -> ExitCode {
 
 fn run(command: Command) -> Result<()> {
     match command {
+        // Synchronous: xstacks makes its own runtime for each call to a vault's session.
+        Command::Stacks(command) => mirrorboards_xstacks::xx::stacks::run(command),
         Command::Identity(command) => {
             let runtime = tokio::runtime::Builder::new_current_thread()
                 .enable_all()
