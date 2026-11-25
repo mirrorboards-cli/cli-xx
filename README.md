@@ -29,6 +29,7 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | `xx vault lock <NAME>... \| --all` | blokuje skarbiec teraz (`xkeys-cli/src/xx/vault/lock.rs`) |
 | `xx vault sync <NAME> [--to <URL>]` | synchronizuje teraz; `--to file://…` zaczyna synchronizację w folderze (`xkeys-cli/src/xx/vault/sync.rs`) |
 | `xx vault clone <URL> <NAME>` | pobiera skarbiec z folderu (`xkeys-cli/src/xx/vault/clone.rs`) |
+| `xx identity create <VAULT>/<NAME>` | tworzy tożsamość w odblokowanym skarbcu (`xkeys-cli/src/xx/identity/create.rs`) |
 | `xx vault list [NAME]...` | tabela skarbców jak `kubectl get`; `-o wide|name|json|table` (`xkeys-cli/src/xx/vault/list.rs`) |
 | `xx version` | wypisuje wersję `xx` |
 

@@ -21,6 +21,9 @@ struct Arguments {
 
 #[derive(Subcommand)]
 enum Command {
+    /// Identities: keys under a name, in a vault
+    #[command(subcommand)]
+    Identity(xkeys_cli::xx::identity::Command),
     /// Vaults: where your identities' keys are kept
     #[command(subcommand)]
     Vault(xkeys_cli::xx::vault::Command),
@@ -45,6 +48,14 @@ pub fn main() -> ExitCode {
 
 fn run(command: Command) -> Result<()> {
     match command {
+        Command::Identity(command) => {
+            let runtime = tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .context("cannot start the async runtime")?;
+
+            runtime.block_on(xkeys_cli::xx::identity::run(command))
+        }
         Command::Vault(command) => {
             let runtime = tokio::runtime::Builder::new_current_thread()
                 .enable_all()
