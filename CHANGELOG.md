@@ -20,6 +20,11 @@ lines under its version, and the section becomes the notes of the GitHub release
 - `xx wallet import_balance <ACCOUNT> --identity <VAULT>/<IDENTITY> [--preview]`: claims the
   balances genesis put under an identity's keys into an account, in one transaction signed by the
   vault's session; `--preview` shows the claim and sends nothing.
+- `xx wallet`: every read of `cli_wallet` (61 commands): the chain (`info`, `about`, `get_object`,
+  `get_block`), accounts and their balances, history, vesting and storage, assets, the market,
+  witnesses and the committee, HTLCs, transactions (`get_transaction_id`, `serialize_transaction`,
+  `get_transaction_signers`), signed messages, and Mirrornet's data rooms, content cards and fee
+  grants. A node's refusal prints its message, not its whole stack.
 - Tab completion: `xx completion fish|zsh|bash`. The shell asks xx at every Tab, so it also
   completes vault names, identities as `<VAULT>/<IDENTITY>` and networks. `install.sh` sets it up
   for fish (`~/.config/fish/completions/xx.fish`) and zsh (a line in `~/.zshrc`).
