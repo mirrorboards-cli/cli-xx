@@ -1949,6 +1949,7 @@ dependencies = [
  "graphene-chain-mirrornet-api",
  "graphene-chain-mirrornet-bindings",
  "hex",
+ "mirrornet-sdk",
  "open-graphene-core",
  "open-graphene-fc",
  "open-graphene-transport",
@@ -1975,6 +1976,31 @@ dependencies = [
  "serde_json",
  "serde_urlencoded",
  "uuid",
+]
+
+[[package]]
+name = "mirrornet-sdk"
+version = "0.1.0"
+dependencies = [
+ "aes-gcm",
+ "anyhow",
+ "base64 0.22.1",
+ "graphene-chain-mirrornet-api",
+ "graphene-chain-mirrornet-bindings",
+ "hex",
+ "hkdf",
+ "k256",
+ "open-graphene-fc",
+ "open-graphene-transport",
+ "rand_core 0.6.4",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "thiserror 2.0.21",
+ "time",
+ "tokio",
+ "xkeys-session",
+ "zeroize",
 ]
 
 [[package]]
