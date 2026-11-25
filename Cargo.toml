@@ -21,4 +21,7 @@ path = "src/main.rs"
 anyhow = "1"
 # The core xx shares with x: networks, contexts, vault sessions, the actor, the output.
 cli-runtime = { path = "../cli-runtime" }
-clap = { version = "4.5", features = ["derive"] }
+clap = { version = "4.5", features = ["derive", "wrap_help"] }
+tokio = { version = "1", features = ["rt"] }
+# `xx vault …`: the XKeys commands of xx live in xkeys-cli's `xx` module, beside x's own.
+xkeys-cli = { path = "../../mirrorboards-xkeys/xkeys-cli" }

@@ -4,7 +4,11 @@
 //! the same networks, contexts, vaults and sessions, and `x` keeps working beside it.
 //!
 //! - `command_line`: the parser, the dispatch, the error line and the exit codes.
-//! - `commands`: one file per command, one directory per group.
+//! - `commands`: xx's own commands, one file each.
+//!
+//! A tool's group of commands lives in the tool's crate, in its `xx` module (`xx vault` in
+//! `xkeys-cli`), beside `x`'s own command line there; this crate mounts the groups. Retiring `x`
+//! later removes its command lines and keeps the `xx` modules.
 
 mod command_line;
 mod commands;

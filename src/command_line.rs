@@ -3,7 +3,7 @@
 
 use std::process::ExitCode;
 
-use anyhow::Result;
+use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 
 use crate::commands::version;
@@ -21,7 +21,10 @@ struct Arguments {
 
 #[derive(Subcommand)]
 enum Command {
-    /// Print the version of xx.
+    /// Vaults: where your identities' keys are kept
+    #[command(subcommand)]
+    Vault(xkeys_cli::xx::vault::Command),
+    /// Print the version of xx
     Version,
 }
 
@@ -42,6 +45,14 @@ pub fn main() -> ExitCode {
 
 fn run(command: Command) -> Result<()> {
     match command {
+        Command::Vault(command) => {
+            let runtime = tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .context("cannot start the async runtime")?;
+
+            runtime.block_on(xkeys_cli::xx::vault::run(command))
+        }
         Command::Version => {
             version::run();
 

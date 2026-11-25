@@ -7,6 +7,10 @@ Oba programy stoją na tym samym rdzeniu (`cli-runtime`, biblioteka `xkeys-cli`,
 biblioteki wtyczek) i widzą ten sam stan: plik `~/.config/mirror/config.toml`, konteksty, skarbce,
 sesje i zmienne `MIRROR_*`. `xx` nie uruchamia wtyczek `x-*`.
 
+Grupa poleceń narzędzia leży w crate tego narzędzia, w module `xx` (`xx vault` w
+`xkeys-cli/src/xx/`), obok wiersza poleceń `x`; ten crate tylko składa grupy. Wycofanie `x` usunie
+jego wiersze poleceń, a moduły `xx` zostaną.
+
 ## Uruchomienie
 
 ```sh
@@ -19,12 +23,14 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 
 | Polecenie | Co robi |
 | --- | --- |
+| `xx vault create <NAME>` | zakłada skarbiec (`xkeys-cli/src/xx/vault/create.rs`) |
 | `xx version` | wypisuje wersję `xx` |
 
 ## Nowe polecenie
 
 1. Właściciel opisuje polecenie; jego postać (wywołanie, flagi, pomoc) jest pokazana do akceptacji.
-2. Plik `src/commands/<polecenie>.rs` (grupa: katalog), wariant w `src/command_line.rs`.
+2. Polecenie grupy narzędzia: `<crate narzędzia>/src/xx/<grupa>/<polecenie>.rs`, grupa podpięta
+   w `src/command_line.rs`; polecenie samego `xx`: `src/commands/<polecenie>.rs`.
 3. Logika poza warstwą poleceń leży we wspólnym rdzeniu; logika ukryta w poleceniu `x` przechodzi
    do biblioteki, z której korzystają oba programy, bez zmiany zachowania `x`.
 4. Testy, wpis w tabeli wyżej i w `cli-spec/xx.typ`.

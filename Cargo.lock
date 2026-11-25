@@ -306,6 +306,7 @@ dependencies = [
  "anstyle",
  "clap_lex",
  "strsim",
+ "terminal_size",
 ]
 
 [[package]]
@@ -354,6 +355,8 @@ dependencies = [
  "anyhow",
  "clap",
  "cli-runtime",
+ "tokio",
+ "xkeys-cli",
 ]
 
 [[package]]
@@ -1454,6 +1457,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "rpassword"
+version = "7.5.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1fa2c5d9304b618df61ff17f3d3485c6e1854a3d94902a49abbb8d43dfbe0464"
+dependencies = [
+ "libc",
+ "rtoolbox",
+ "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "rtoolbox"
+version = "0.0.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9a1efe12a1469752d0e6ff5ebec0b6ef4924cc5c4c71046b0ec730040535819d"
+dependencies = [
+ "libc",
+ "windows-sys 0.61.2",
+]
+
+[[package]]
 name = "rustc-hash"
 version = "2.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1636,6 +1660,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f8fadd59c855ef2080decdef8ff161eb6661b86933c9d82e5ba29dc602a55aba"
 
 [[package]]
+name = "signal-hook-registry"
+version = "1.4.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c4db69cba1110affc0e9f7bcd48bbf87b3f4fc7c61fc9155afd4c469eb3d6c1b"
+dependencies = [
+ "errno",
+ "libc",
+]
+
+[[package]]
 name = "signature"
 version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1738,6 +1772,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "terminal_size"
+version = "0.4.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "230a1b821ccbd75b185820a1f1ff7b14d21da1e442e22c0863ea5f08771a8874"
+dependencies = [
+ "rustix",
+ "windows-sys 0.59.0",
+]
+
+[[package]]
 name = "thiserror"
 version = "1.0.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1803,8 +1847,21 @@ dependencies = [
  "libc",
  "mio",
  "pin-project-lite",
+ "signal-hook-registry",
  "socket2",
+ "tokio-macros",
  "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "tokio-macros"
+version = "2.7.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "78773a2a397f451582ce068015985c33193cf6dea8b74d2a639fe457b2f07b0e"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 3.0.10",
 ]
 
 [[package]]
@@ -2023,6 +2080,7 @@ version = "1.29.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3c14b15dffa2f4bd712103e857140aa04a4f2ff6e955c77d7eb8e53ee02a3b64"
 dependencies = [
+ "getrandom 0.4.3",
  "js-sys",
  "serde_core",
  "wasm-bindgen",
@@ -2312,6 +2370,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3ad82d2a33cdc9674dc7465672f271e096168fcdbe0f799d9e6db8c5892679dc"
 
 [[package]]
+name = "xauth-rust-client"
+version = "0.1.0"
+dependencies = [
+ "bytes",
+ "chrono",
+ "futures-core",
+ "progenitor-client",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "serde_urlencoded",
+ "uuid",
+]
+
+[[package]]
 name = "xkeys-auth-rs"
 version = "0.1.0"
 dependencies = [
@@ -2344,6 +2417,52 @@ dependencies = [
 ]
 
 [[package]]
+name = "xkeys-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "clap",
+ "cli-runtime",
+ "dialoguer",
+ "hex",
+ "mirrornet-query-rust-client",
+ "reqwest",
+ "rpassword",
+ "rustix",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tokio",
+ "toml",
+ "toml_edit",
+ "uuid",
+ "xauth-rust-client",
+ "xkeys-auth-rs",
+ "xkeys-chain",
+ "xkeys-core",
+ "xkeys-ctap",
+ "xkeys-format",
+ "xkeys-rust-client",
+ "xkeys-session",
+ "zeroize",
+]
+
+[[package]]
+name = "xkeys-core"
+version = "0.1.0"
+dependencies = [
+ "xkeys-format",
+]
+
+[[package]]
+name = "xkeys-ctap"
+version = "0.1.0"
+dependencies = [
+ "xkeys-format",
+]
+
+[[package]]
 name = "xkeys-format"
 version = "0.1.0"
 dependencies = [
@@ -2359,6 +2478,21 @@ dependencies = [
  "sha2",
  "unicode-normalization",
  "zeroize",
+]
+
+[[package]]
+name = "xkeys-rust-client"
+version = "0.1.0"
+dependencies = [
+ "bytes",
+ "chrono",
+ "futures-core",
+ "progenitor-client",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "serde_urlencoded",
+ "uuid",
 ]
 
 [[package]]
