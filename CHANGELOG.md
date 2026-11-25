@@ -7,6 +7,11 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+### Changed
+
+- `xx wallet register_account` gives the new account the memo key of the identity named as
+  `ACTIVE`, so memos work without `update_account_keys`; an `MBT…` key is still also the memo key.
+
 ## [0.3.0] - 2026-11-25
 
 ### Added
