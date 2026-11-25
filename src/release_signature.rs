@@ -8,9 +8,11 @@ use anyhow::{Context, Result, bail};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
-/// The key of the identity that signs releases, compressed secp256k1 in hex. `None` until the
-/// owner names it: this build then checks releases by their sha256 alone.
-pub const RELEASE_KEY: Option<&str> = None;
+/// The keys that sign releases, compressed secp256k1 in hex: the `active` keys of identities in a
+/// vault kept for signing alone (owner, 2026-11-25). More than one lets a spare key, or the next
+/// one, sign; a release signed by a trusted key may bring a new list. Empty until the owner names
+/// them: this build then checks releases by their sha256 alone.
+pub const RELEASE_KEYS: &[&str] = &[];
 
 const DOMAIN: &str = "xx release v1";
 const FORMAT: &str = "xx-release-signature-1";
@@ -53,9 +55,9 @@ impl ReleaseSignature {
         }
     }
 
-    /// Accepts the signature only when the trusted key made it, over this version and this
+    /// Accepts the signature only when one of the trusted keys made it, over this version and this
     /// archive.
-    pub fn check(&self, version: &str, archive_sha256: &str, trusted_key: &str) -> Result<()> {
+    pub fn check(&self, version: &str, archive_sha256: &str, trusted_keys: &[&str]) -> Result<()> {
         if self.format != FORMAT {
             bail!(
                 "the release's signature is of the format {}, xx reads {FORMAT}",
@@ -71,12 +73,12 @@ impl ReleaseSignature {
         if self.sha256 != archive_sha256 {
             bail!("the signature is of another archive than the one downloaded");
         }
-        if self.signer != trusted_key {
+        let Some(trusted_key) = trusted_keys.iter().find(|key| **key == self.signer) else {
             bail!(
-                "the release is signed by {}, not by the key xx trusts",
+                "the release is signed by {}, not by a key xx trusts",
                 self.signer
             );
-        }
+        };
 
         let key: [u8; 33] = hex::decode(trusted_key)
             .ok()
@@ -106,10 +108,10 @@ mod tests {
     fn another_signer_or_archive_is_refused() {
         let signature = ReleaseSignature::new("v0.2.0", "aa", "02ab", &[0; 65]);
 
-        let other_signer = signature.check("v0.2.0", "aa", "03cd").unwrap_err();
-        let other_archive = signature.check("v0.2.0", "bb", "02ab").unwrap_err();
+        let other_signer = signature.check("v0.2.0", "aa", &["03cd"]).unwrap_err();
+        let other_archive = signature.check("v0.2.0", "bb", &["02ab"]).unwrap_err();
 
-        assert!(other_signer.to_string().contains("not by the key"));
+        assert!(other_signer.to_string().contains("not by a key"));
         assert!(other_archive.to_string().contains("another archive"));
     }
 }

@@ -18,7 +18,7 @@ use self_update::{ArchiveKind, Compression, Download, Extract};
 use serde::Serialize;
 use sha2::{Digest, Sha256};
 
-use crate::release_signature::{RELEASE_KEY, ReleaseSignature};
+use crate::release_signature::{RELEASE_KEYS, ReleaseSignature};
 
 const REPOSITORY_OWNER: &str = "mirrorboards-cli";
 const REPOSITORY_NAME: &str = "cli-xx";
@@ -194,12 +194,12 @@ fn download(asset: &ReleaseAsset, to: &Path) -> Result<()> {
 /// The release's signature, when this build trusts a release key; without one the sha256 is all
 /// that is checked, and that is said.
 fn check_signature(release: &Release, asset_name: &str, archive_sha256: &str) -> Result<()> {
-    let Some(trusted_key) = RELEASE_KEY else {
+    if RELEASE_KEYS.is_empty() {
         eprintln!(
             "this build trusts no release key yet: the release is checked by its sha256 only"
         );
         return Ok(());
-    };
+    }
 
     let signature_asset = asset_of(release, &format!("{asset_name}.sig"))
         .context("the release is not signed, and xx installs only signed releases")?;
@@ -216,7 +216,7 @@ fn check_signature(release: &Release, asset_name: &str, archive_sha256: &str) ->
     let signature: ReleaseSignature =
         serde_json::from_slice(&text).context("the release's signature is no JSON")?;
 
-    signature.check(&release.version, archive_sha256, trusted_key)?;
+    signature.check(&release.version, archive_sha256, RELEASE_KEYS)?;
     eprintln!("signature ok ({})", signature.signer);
 
     Ok(())
