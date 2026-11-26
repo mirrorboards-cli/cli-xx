@@ -28,6 +28,10 @@ lines under its version, and the section becomes the notes of the GitHub release
   status 3 while proposals wait. The stack's passphrase lives in an XKeys slot of infra's identity.
 - `xx mirrorboard sign <HOST>/<CODE>`: the owner sees what a deployment waits for from their
   accounts, answers once for the whole list, and signs it in their own vault session.
+- For GitHub Actions: `xx mirrorboard deploy --github` (job summary, notice or error, step
+  outputs), `--only-when-signed` (resume from cron only when something was signed),
+  `--preview -o markdown` (the pull request comment), and `xx vault import … --unlock-for` (infra's
+  vault from the repository's secrets, opened with its recovery code).
 
 ### Changed
 
