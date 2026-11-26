@@ -18,6 +18,11 @@ lines under its version, and the section becomes the notes of the GitHub release
   bound to it in the vault, and `--fund` sends it MBT from the registrar.
 - `xx wallet link_identity <VAULT>/<IDENTITY> <ACCOUNT>`: binds an existing account after checking
   its keys on chain, so `list_my_accounts` and the identity show it.
+- `xx wallet create_account … --registrar <URL>`: an XSystem's registrar registers the identity
+  and pays; the vault signs only the request, and `--fund` is a top-up from that registrar.
+- `xx wallet create_company_account <NAME> --founder <VAULT>/<IDENTITY> --member <ACCOUNT>=<WEIGHT>…
+  --threshold <N> --registrar <URL>`: an XSystem's registrar founds a company account whose owner
+  and active are the members with their weights and the threshold.
 
 ### Changed
 
