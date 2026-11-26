@@ -2245,6 +2245,7 @@ dependencies = [
  "bs58",
  "clap",
  "cli-runtime",
+ "futures",
  "graphene-chain-mirrornet-api",
  "graphene-chain-mirrornet-bindings",
  "hex",
