@@ -23,6 +23,11 @@ lines under its version, and the section becomes the notes of the GitHub release
 - `xx wallet create_company_account <NAME> --founder <VAULT>/<IDENTITY> --member <ACCOUNT>=<WEIGHT>…
   --threshold <N> --registrar <URL>`: an XSystem's registrar founds a company account whose owner
   and active are the members with their weights and the threshold.
+- `xx mirrorboard deploy [PATH] --identity <VAULT>/<IDENTITY>`: infra deploys a mirrorboard
+  instance; a room nobody here signs for waits for its owner, and the command ends with exit
+  status 3 while proposals wait. The stack's passphrase lives in an XKeys slot of infra's identity.
+- `xx mirrorboard sign <HOST>/<CODE>`: the owner sees what a deployment waits for from their
+  accounts, answers once for the whole list, and signs it in their own vault session.
 
 ### Changed
 

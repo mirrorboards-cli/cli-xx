@@ -1,13 +1,19 @@
 //! The command line of `xx`: its commands, the line an error ends with and the exit codes, as in
-//! `x` (cli-spec MR-17): 0 done, 1 failed with one line `xx: <message>`, 2 a mistyped command.
+//! `x` (cli-spec MR-17): 0 done, 1 failed with one line `xx: <message>`, 2 a mistyped command;
+//! `xx mirrorboard deploy` also ends with 3 while its deployment waits for signatures.
 
 use std::process::ExitCode;
 
 use anyhow::{Context, Result};
 use clap::{CommandFactory, Parser, Subcommand};
 
+use mirrornet_cli::xx::mirrorboard::WaitingForSignatures;
+
 use crate::commands::{release, update, version};
 use crate::completion;
+
+/// The exit status of a deployment that waits for signatures (PX-9); it has printed what waits.
+const WAITING_FOR_SIGNATURES: u8 = 3;
 
 #[derive(Parser)]
 #[command(
@@ -25,6 +31,9 @@ enum Command {
     /// Identities: keys under a name, in a vault
     #[command(subcommand)]
     Identity(xkeys_cli::xx::identity::Command),
+    /// Mirrorboard instances: infra deploys them, owners sign their parts
+    #[command(subcommand)]
+    Mirrorboard(mirrornet_cli::xx::mirrorboard::Command),
     /// Pulumi platforms: deploy and preview their stacks
     #[command(subcommand)]
     Stacks(mirrorboards_xstacks::xx::stacks::Command),
@@ -59,6 +68,7 @@ pub fn main() -> ExitCode {
 
     match run(arguments.command) {
         Ok(()) => ExitCode::SUCCESS,
+        Err(error) if error.is::<WaitingForSignatures>() => ExitCode::from(WAITING_FOR_SIGNATURES),
         Err(error) => {
             eprintln!("xx: {error:#}");
 
@@ -86,6 +96,15 @@ fn run(command: Command) -> Result<()> {
                 .context("cannot start the async runtime")?;
 
             runtime.block_on(xkeys_cli::xx::vault::run(command))
+        }
+        Command::Mirrorboard(command) => {
+            // One thread: the provider's code that `sign` runs is not `Send` (PX-12).
+            let runtime = tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .context("cannot start the async runtime")?;
+
+            runtime.block_on(mirrornet_cli::xx::mirrorboard::run(command))
         }
         Command::Wallet(command) => {
             let runtime = tokio::runtime::Builder::new_current_thread()
