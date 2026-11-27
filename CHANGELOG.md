@@ -32,7 +32,6 @@ lines under its version, and the section becomes the notes of the GitHub release
   so the state shows who is in them; a room with attention only where its owner's session runs.
   A member let in outside the program is named in a plain line and left in, and GitHub gets it in
   the summary without a warning.
-- `xx mirrorboard sign` shows a fee exactly where the chain does not charge it by size.
 
 ## [0.4.0] - 2026-11-27
 
@@ -104,6 +103,7 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ### Changed
 
+- `xx mirrorboard sign` shows a fee exactly where the chain does not charge it by size.
 - `xx wallet register_account` gives the new account the memo key of the identity named as
   `ACTIVE`, so memos work without `update_account_keys`; an `MBT…` key is still also the memo key.
 - `xx wallet create_fee_grant` takes a budget per asset, `asset:total[:per_period]`, and
