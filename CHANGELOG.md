@@ -21,6 +21,9 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ### Fixed
 
+- `xx mirrorboard sign` shows `pays: nothing on the chain` for a change written only off the
+  chain, such as a room's attention or a member's line; before, it showed the fee of an operation
+  that is never sent.
 - `xx mirrorboard deploy` takes a room or member its owner made by a proposal after the run that
   proposed it ended, also when the program changed the resource since, e.g. the room's
   description, and proposes the change; before, it proposed a second room.
