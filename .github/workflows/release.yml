@@ -1,7 +1,7 @@
 name: Release
 
-# Builds a release of xx and puts it in a draft GitHub release. The owner then signs the archive
-# (`xx release sign`), uploads the .sig, and publishes the release.
+# Builds a release of xx and puts it in a draft GitHub release. `xx release publish <TAG>` starts
+# it, or finds the draft it made; it signs the archive, uploads the .sig and publishes the release.
 on:
   workflow_dispatch:
     inputs:
