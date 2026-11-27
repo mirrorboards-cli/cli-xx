@@ -25,6 +25,10 @@ const REPOSITORY_OWNER: &str = "mirrorboards-cli";
 const REPOSITORY_NAME: &str = "cli-xx";
 const PROGRAM: &str = "xx";
 
+/// Pulumi's Rust language host, which a release carries beside xx and `xx mirrorboard deploy` puts
+/// first in Pulumi's PATH (PT-4 of cli-spec xx.typ). Releases before 0.5.0 carry xx alone.
+const LANGUAGE_HOST: &str = "pulumi-language-rust";
+
 #[derive(Args)]
 pub struct Arguments {
     /// Only say whether a newer release is there; change nothing
@@ -210,6 +214,46 @@ fn install(release: &Release, asset_name: &str) -> Result<()> {
         }
     })?;
 
+    let carries_language_host = Extract::from_source(&archive)
+        .archive(ArchiveKind::Tar(Some(Compression::Gz)))
+        .extract_file(work.path(), LANGUAGE_HOST)
+        .is_ok();
+    if carries_language_host {
+        let program = std::env::current_exe().context("the path of this program is unknown")?;
+        put_beside(&work.path().join(LANGUAGE_HOST), &program)
+            .with_context(|| format!("xx was updated, but {LANGUAGE_HOST} beside it was not"))?;
+    }
+
+    Ok(())
+}
+
+/// Puts `file` beside `program` under its own name. It is copied in under another name and
+/// renamed, so a failure leaves the one there whole.
+fn put_beside(file: &Path, program: &Path) -> Result<()> {
+    use std::os::unix::fs::PermissionsExt;
+
+    let name = file
+        .file_name()
+        .with_context(|| format!("{} has no file name", file.display()))?
+        .to_string_lossy()
+        .into_owned();
+    let destination = program.with_file_name(&name);
+    let incoming = program.with_file_name(format!(".{name}.incoming"));
+
+    std::fs::copy(file, &incoming).map_err(|error| {
+        let denied = error.kind() == std::io::ErrorKind::PermissionDenied;
+        match denied {
+            true => anyhow::anyhow!(
+                "{name} cannot be written beside this program, without rights there: sudo xx update"
+            ),
+            false => anyhow::anyhow!("cannot write {}: {error}", incoming.display()),
+        }
+    })?;
+    std::fs::set_permissions(&incoming, std::fs::Permissions::from_mode(0o755))
+        .with_context(|| format!("cannot make {} runnable", incoming.display()))?;
+    std::fs::rename(&incoming, &destination)
+        .with_context(|| format!("cannot put {name} in place of {}", destination.display()))?;
+
     Ok(())
 }
 
@@ -339,6 +383,27 @@ mod tests {
             locked_line(&locked),
             "locked mirrornet-mainnet-accounts: its session ran xx 0.3.0"
         );
+    }
+
+    #[test]
+    fn the_language_host_goes_beside_the_program_in_place_of_the_old_one() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let installed = tempfile_dir().unwrap();
+        let unpacked = tempfile_dir().unwrap();
+        let program = installed.path().join("xx");
+        std::fs::write(&program, b"xx").unwrap();
+        std::fs::write(installed.path().join(LANGUAGE_HOST), b"old host").unwrap();
+        let new_host = unpacked.path().join(LANGUAGE_HOST);
+        std::fs::write(&new_host, b"new host").unwrap();
+
+        put_beside(&new_host, &program).unwrap();
+
+        let beside = installed.path().join(LANGUAGE_HOST);
+        assert_eq!(std::fs::read(&beside).unwrap(), b"new host");
+        let mode = std::fs::metadata(&beside).unwrap().permissions().mode();
+        assert_eq!(mode & 0o777, 0o755);
+        assert!(!installed.path().join(".pulumi-language-rust.incoming").exists());
     }
 
     #[test]

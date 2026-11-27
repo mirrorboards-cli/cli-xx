@@ -59,12 +59,20 @@ export CARGO_TARGET_DIR="$WORK/target"
 (cd "$ROOT/mirrorboards-core/mirrorboards-cli/cli-xx" && cargo build --release --locked)
 binary="$CARGO_TARGET_DIR/release/xx"
 
-# Only the system's libraries.
-otool -L "$binary"
-if otool -L "$binary" | tail -n +2 | awk '{print $1}' | grep -vE '^(/usr/lib/|/System/Library/)'; then
-  echo "xx links a library that is not the system's" >&2
-  exit 1
-fi
+# Pulumi's Rust language host from the pinned pulumi-rust, which xx mirrorboard deploy puts first
+# in Pulumi's PATH (PT-4 of cli-spec xx.typ). Go builds it as the deployment image does.
+language_host="$WORK/pulumi-language-rust"
+(cd "$ROOT/vendors/pulumi-labs/pulumi-rust/pulumi-language-rust" \
+  && CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -trimpath -ldflags "-s -w" -o "$language_host" .)
+
+# Only the system's libraries, for both programs.
+for program in "$binary" "$language_host"; do
+  otool -L "$program"
+  if otool -L "$program" | tail -n +2 | awk '{print $1}' | grep -vE '^(/usr/lib/|/System/Library/)'; then
+    echo "$program links a library that is not the system's" >&2
+    exit 1
+  fi
+done
 
 # Stripping breaks the linker's ad-hoc signature; sign it ad hoc again.
 out="$WORK/$VERSION"
@@ -74,10 +82,13 @@ strip "$out/pkg/xx"
 codesign -s - -f "$out/pkg/xx"
 codesign -v "$out/pkg/xx"
 "$out/pkg/xx" version
+cp "$language_host" "$out/pkg/pulumi-language-rust"
+codesign -s - -f "$out/pkg/pulumi-language-rust"
+codesign -v "$out/pkg/pulumi-language-rust"
 
-# One file, xx, at the archive's root, and its sha256 as shasum prints it.
+# xx and the language host at the archive's root, and its sha256 as shasum prints it.
 cd "$out"
-COPYFILE_DISABLE=1 tar -czf xx-macos-arm64.tar.gz -C pkg xx
+COPYFILE_DISABLE=1 tar -czf xx-macos-arm64.tar.gz -C pkg xx pulumi-language-rust
 shasum -a 256 xx-macos-arm64.tar.gz > xx-macos-arm64.tar.gz.sha256
 shasum -a 256 -c xx-macos-arm64.tar.gz.sha256
 rm -rf pkg

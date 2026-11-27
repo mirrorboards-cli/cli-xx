@@ -25,6 +25,9 @@ lines under its version, and the section becomes the notes of the GitHub release
   starts it as `pulumi-resource-mirrorboard` from a folder first in its PATH), and Pulumi is the
   version xx pins, fetched once into `~/.local/share/xx/pulumi` and checked by sha256 when the
   one on PATH is another version. cargo is checked before the run.
+- A release carries Pulumi's Rust language host, `pulumi-language-rust`, beside xx, under the same
+  signature; `install.sh` and `xx update` put it beside xx, and `xx mirrorboard deploy` puts it
+  first in Pulumi's PATH.
 
 ## [0.4.0] - 2026-11-27
 

@@ -84,6 +84,12 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
 
+      # Pulumi's Rust language host, built beside xx (PT-4 of cli-spec xx.typ).
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: workspace/vendors/pulumi-labs/pulumi-rust/pulumi-language-rust/go.mod
+          cache: false
+
       - name: Build
         env:
           ROOT: ${{ github.workspace }}/workspace

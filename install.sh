@@ -55,6 +55,11 @@ if [ -z "$folder" ]; then
 fi
 mkdir -p "$folder"
 install -m 0755 "$work/xx" "$folder/xx"
+# Pulumi's Rust language host, which xx mirrorboard deploy runs Pulumi with (PT-4 of cli-spec
+# xx.typ); releases before 0.5.0 carry xx alone.
+if [ -f "$work/pulumi-language-rust" ]; then
+  install -m 0755 "$work/pulumi-language-rust" "$folder/pulumi-language-rust"
+fi
 
 echo "xx installed in $folder/xx: $("$folder/xx" version)"
 
