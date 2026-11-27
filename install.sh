@@ -58,6 +58,12 @@ install -m 0755 "$work/xx" "$folder/xx"
 
 echo "xx installed in $folder/xx: $("$folder/xx" version)"
 
+# Plain git with rooms (SG-7 of cli-spec xx.typ): git starts git-remote-xgit for xgit:// remotes,
+# a link to xx beside it, and the large-file filter goes into the global git config.
+if command -v git > /dev/null; then
+  "$folder/xx" git install
+fi
+
 # Tab completion for the shell the person logs in with. The shell asks xx at every Tab, so the
 # completion knows this computer's vaults and identities; reinstalling keeps it as it is.
 login_shell="$(basename "${SHELL:-}")"

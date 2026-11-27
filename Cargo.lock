@@ -744,6 +744,7 @@ dependencies = [
  "serde_json",
  "sha2 0.10.9",
  "tokio",
+ "xgit-cli",
  "xkeys-chain",
  "xkeys-cli",
  "xsql-cli",
@@ -5631,6 +5632,46 @@ dependencies = [
  "serde_json",
  "serde_urlencoded",
  "uuid",
+]
+
+[[package]]
+name = "xgit-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "cli-runtime",
+ "hex",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "tokio",
+ "xgit-core",
+ "xkeys-cli",
+ "xkeys-session",
+ "zeroize",
+]
+
+[[package]]
+name = "xgit-core"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "hex",
+ "hkdf",
+ "hmac",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "thiserror 2.0.21",
+ "tokio",
+ "uuid",
+ "xkeys-chain",
+ "xkeys-session",
+ "zeroize",
 ]
 
 [[package]]

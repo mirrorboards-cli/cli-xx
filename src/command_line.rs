@@ -28,6 +28,9 @@ struct Arguments {
 
 #[derive(Subcommand)]
 enum Command {
+    /// Rooms' git repositories: upload files, list them, clone a room for plain git
+    #[command(subcommand)]
+    Git(xgit_cli::xx::git::Command),
     /// Identities: keys under a name, in a vault
     #[command(subcommand)]
     Identity(xkeys_cli::xx::identity::Command),
@@ -60,6 +63,13 @@ enum Command {
 pub fn main() -> ExitCode {
     cli_runtime::plugin::restore_default_sigpipe();
 
+    // Git starts its helper for xgit:// remotes by name; `xx git install` makes that name a link
+    // to xx (SG-7 of cli-spec xx.typ).
+    let arguments: Vec<String> = std::env::args().collect();
+    if started_as(&arguments, xgit_cli::xx::git::HELPER_NAME) {
+        return xgit_cli::xx::git::run_as_git_remote_helper(&arguments);
+    }
+
     // Sessions this program starts report it by this version (`xx vault list`, `xx update`).
     xkeys_cli::session::program::register_version(env!("CARGO_PKG_VERSION"));
 
@@ -80,8 +90,20 @@ pub fn main() -> ExitCode {
     }
 }
 
+/// Whether the program was started under the file name `name`.
+fn started_as(arguments: &[String], name: &str) -> bool {
+    let program = arguments.first().map(std::path::Path::new);
+
+    program
+        .and_then(|program| program.file_name())
+        .is_some_and(|file_name| file_name == name)
+}
+
 fn run(command: Command) -> Result<()> {
     match command {
+        // Synchronous: each command of xx git makes its own runtime, and the filter and the
+        // helper block on theirs while git talks to them.
+        Command::Git(command) => xgit_cli::xx::git::run(command),
         // Synchronous: xstacks makes its own runtime for each call to a vault's session.
         Command::Stacks(command) => mirrorboards_xstacks::xx::stacks::run(command),
         Command::Identity(command) => {
@@ -158,5 +180,20 @@ mod tests {
         assert!(matches!(parsed.command, Command::Version));
         assert_eq!(mistyped.kind(), ErrorKind::InvalidSubcommand);
         assert_eq!(mistyped.exit_code(), 2);
+    }
+
+    #[test]
+    fn xx_started_as_git_remote_xgit_is_gits_helper() {
+        let as_helper = [
+            "/usr/local/bin/git-remote-xgit",
+            "origin",
+            "xgit://x/1.24.1",
+        ]
+        .map(str::to_owned);
+        let as_itself = ["/usr/local/bin/xx", "git", "files"].map(str::to_owned);
+
+        assert!(started_as(&as_helper, "git-remote-xgit"));
+        assert!(!started_as(&as_itself, "git-remote-xgit"));
+        assert!(!started_as(&[], "git-remote-xgit"));
     }
 }

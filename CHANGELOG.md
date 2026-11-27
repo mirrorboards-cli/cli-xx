@@ -9,6 +9,14 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ### Added
 
+- `xx git upload <ROOM> <FILE>... [--to <DIR>] [-m <TEXT>] [--branch <NAME>]`: files and folders of
+  this computer go into a room's repository on XGit as one commit, without a clone; a file over
+  1 MiB travels as a content object in 4 MiB chunks. The room's keys stay in the vault session.
+- `xx git files <ROOM> [PATH]`: the files of a branch with the sizes XGit stores.
+- `xx git clone <ROOM> [DIR]`, `xx git install`, `xx git retain`, `xx git objects fetch`: plain git
+  with rooms for a person; the clone remembers who acts (`git config xx.identity`, `xx.as`), and
+  `git-remote-xgit` is a link to xx, which `install.sh` makes too.
+
 - `xx sql query|exec|export|snapshot <ROOM>`: a room's SQLite database for a person. The room is
   `1.24.N` or `<OWNER>/<NAME>`; without `--identity` the only identity here with access acts,
   for its own account or, with `--as` or when it is the only one, for a company it signs for

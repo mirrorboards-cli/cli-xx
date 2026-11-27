@@ -33,6 +33,9 @@ mirrorboards-xstacks = { path = "../../mirrorboards-dev/dev-cli-xstacks" }
 mirrornet-cli = { path = "../../mirrorboards-mirrornet/mirrornet-cli" }
 # `xx sql …`: rooms' SQLite databases, from xsql-cli's `xx` module (feature `xx`).
 xsql-cli = { path = "../../mirrorboards-xsql/xsql-cli", features = ["xx"] }
+# `xx git …`: rooms' git repositories and files, from xgit-cli's `xx` module (feature `xx`); git
+# also starts xx as its helper, under the name git-remote-xgit.
+xgit-cli = { path = "../../mirrorboards-xgit/xgit-cli", features = ["xx"] }
 # `xx update`: the newest release of xx on GitHub, its archive and the swap of this program.
 self_update = { version = "0.42", default-features = false, features = ["archive-tar", "compression-flate2", "rustls"] }
 sha2 = "0.10"

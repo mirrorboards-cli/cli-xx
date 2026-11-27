@@ -62,6 +62,11 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | `xx vault lock <NAME>... \| --all` | blokuje skarbiec teraz (`xkeys-cli/src/xx/vault/lock.rs`) |
 | `xx vault sync <NAME> [--to <URL>]` | synchronizuje teraz; `--to file://…` zaczyna synchronizację w folderze (`xkeys-cli/src/xx/vault/sync.rs`) |
 | `xx identity create <VAULT>/<NAME>` | tworzy tożsamość w odblokowanym skarbcu (`xkeys-cli/src/xx/identity/create.rs`) |
+| `xx git upload <ROOM> <FILE>... [--to <DIR>]` | pliki do repozytorium pokoju w XGit jednym commitem, bez klonu (`xgit-cli/src/xx/git/upload.rs`) |
+| `xx git files <ROOM> [PATH]` | pliki gałęzi z rozmiarami, które trzyma XGit (`xgit-cli/src/xx/git/files.rs`) |
+| `xx git clone <ROOM> [DIR]` | klon pokoju dla zwykłego gita, z `git config xx.identity` (`xgit-cli/src/xx/git/clone.rs`) |
+| `xx git install` | `git-remote-xgit` jako link do `xx` i filtr dużych plików w globalnym git config (`xgit-cli/src/xx/git/install.rs`) |
+| `xx git retain [REMOTE]`, `xx git objects fetch [PATH]...` | w klonie: żywe obiekty treści, treść zamiast wskaźników (`xgit-cli/src/xx/git/in_repository.rs`) |
 | `xx sql query <ROOM> <SQL> [-o table\|json\|csv]` | wiersze zapytania do bazy pokoju (`xsql-cli/src/xx/sql/query.rs`) |
 | `xx sql exec <ROOM> [SQL]... [--file <FILE>\|-]` | instrukcje po kolei, zmiany idą do pokoju jednym rekordem (`xsql-cli/src/xx/sql/exec.rs`) |
 | `xx sql export <ROOM> <FILE> [--follow]` | odszyfrowana baza pokoju w pliku SQLite (`xsql-cli/src/xx/sql/export.rs`) |
