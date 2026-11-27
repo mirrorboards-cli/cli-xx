@@ -133,3 +133,7 @@ rev = "6614f5e8fa410fe3f1e0e34a16836e0a61a1aed2"
 git = "git@github.com:mirrorboards-xsql/xsql-turso.git"
 path = "mirrorboards-core/mirrorboards-xsql/xsql-turso"
 rev = "441fac256d62cc91d6f8bd05b868e3cb31a07c5a"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xbilling/xbilling-cli.git"
+path = "mirrorboards-core/mirrorboards-xbilling/xbilling-cli"
