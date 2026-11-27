@@ -19,6 +19,13 @@ lines under its version, and the section becomes the notes of the GitHub release
   from XGit and XSQL now; `dues` prices one day line by line; `records [--room <ROOM>]` and
   `settlements` read as in `x billing`.
 
+### Changed
+
+- `xx mirrorboard deploy` brings what it runs: xx itself is the mirrorboard provider (Pulumi
+  starts it as `pulumi-resource-mirrorboard` from a folder first in its PATH), and Pulumi is the
+  version xx pins, fetched once into `~/.local/share/xx/pulumi` and checked by sha256 when the
+  one on PATH is another version. cargo is checked before the run.
+
 ## [0.4.0] - 2026-11-27
 
 ### Added

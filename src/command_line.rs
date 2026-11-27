@@ -73,6 +73,12 @@ pub fn main() -> ExitCode {
         return xgit_cli::xx::git::run_as_git_remote_helper(&arguments);
     }
 
+    // Pulumi starts the mirrorboard provider by name; `xx mirrorboard deploy` makes that name a
+    // link to xx in a folder first in Pulumi's PATH (PT-1 of cli-spec xx.typ).
+    if started_as(&arguments, mirrornet_cli::xx::mirrorboard::PROVIDER_PROGRAM) {
+        return serve_mirrorboard_provider();
+    }
+
     // Sessions this program starts report it by this version (`xx vault list`, `xx update`).
     xkeys_cli::session::program::register_version(env!("CARGO_PKG_VERSION"));
 
@@ -87,6 +93,21 @@ pub fn main() -> ExitCode {
         Err(error) if error.is::<WaitingForSignatures>() => ExitCode::from(WAITING_FOR_SIGNATURES),
         Err(error) => {
             eprintln!("xx: {error:#}");
+
+            ExitCode::FAILURE
+        }
+    }
+}
+
+/// The mirrorboard provider, served to Pulumi's engine until it stops it.
+fn serve_mirrorboard_provider() -> ExitCode {
+    match mirrornet_cli::xx::mirrorboard::serve_provider() {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(error) => {
+            eprintln!(
+                "{}: {error:#}",
+                mirrornet_cli::xx::mirrorboard::PROVIDER_PROGRAM
+            );
 
             ExitCode::FAILURE
         }
@@ -191,6 +212,19 @@ mod tests {
         assert!(matches!(parsed.command, Command::Version));
         assert_eq!(mistyped.kind(), ErrorKind::InvalidSubcommand);
         assert_eq!(mistyped.exit_code(), 2);
+    }
+
+    #[test]
+    fn xx_started_as_pulumi_resource_mirrorboard_is_the_provider() {
+        let as_provider = [
+            "/tmp/xx-pulumi-plugins-1/pulumi-resource-mirrorboard".to_owned(),
+            "127.0.0.1:52144".to_owned(),
+        ];
+
+        assert!(started_as(
+            &as_provider,
+            mirrornet_cli::xx::mirrorboard::PROVIDER_PROGRAM
+        ));
     }
 
     #[test]
