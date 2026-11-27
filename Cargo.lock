@@ -2683,7 +2683,6 @@ dependencies = [
  "serde_json",
  "sha2 0.10.9",
  "tokio",
- "toml 0.8.23",
  "xgit-core",
  "xkeys-chain",
  "xkeys-cli",
