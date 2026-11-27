@@ -7,6 +7,13 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+### Added
+
+- `xx wallet update_company_account <ACCOUNT> --identity <VAULT>/<IDENTITY>
+  --member <ACCOUNT>=<WEIGHT>... --threshold <N> [--yes]`: new weights and a new threshold for a
+  company's members, in its owner and active alike. A member who signs alone now signs, the
+  company pays, and a change after which nobody signs alone asks first.
+
 ## [0.4.0] - 2026-11-27
 
 ### Added
