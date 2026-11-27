@@ -24,6 +24,12 @@ lines under its version, and the section becomes the notes of the GitHub release
   proposal before it adds its approval, and the member who meets the threshold reports the
   outcome. The list shows the approvals so far and what each member pays. It needs an XSystem
   that collects joint approvals (acta-network's main-4b71dca).
+- `xx mirrorboard withdraw <CODE> --identity <VAULT>/<IDENTITY> [--approved] [--yes]`: infra
+  withdraws the open proposals of a deployment that no run will finish, as a trial's. Proposals
+  that wait or collect their members' approvals go; approved ones only with `--approved`, since
+  their owners may be carrying them out. Only the account that opened the deployment withdraws in
+  it. One question, no by default; `--yes` without a terminal. A collecting proposal's proposal of
+  the chain stays on the chain until it expires.
 
 ### Changed
 
@@ -46,6 +52,10 @@ lines under its version, and the section becomes the notes of the GitHub release
   one for a room deleted since it was proposed. Such a proposal stays on the list with its reason:
   a yes leaves it alone, `n` and `--refuse` refuse it, and a list of only such proposals asks
   `Refuse all? [y/N]`.
+- `xx mirrorboard deploy` names drift that the deployment's own proposals made as theirs. A member
+  that a proposal signed after a waiting run let in, took out or changed is told as "let in by
+  this deployment's proposal" (and so on), not as let in outside the program or changed by hand,
+  and it no longer goes into the GitHub summary's "Also in the rooms".
 
 ## [0.4.0] - 2026-11-27
 
