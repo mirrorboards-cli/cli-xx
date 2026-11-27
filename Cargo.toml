@@ -31,6 +31,8 @@ xkeys-cli = { path = "../../mirrorboards-xkeys/xkeys-cli" }
 mirrorboards-xstacks = { path = "../../mirrorboards-dev/dev-cli-xstacks" }
 # `xx wallet …`: the methods of Mirrornet's cli_wallet, from mirrornet-cli's `xx` module.
 mirrornet-cli = { path = "../../mirrorboards-mirrornet/mirrornet-cli" }
+# `xx sql …`: rooms' SQLite databases, from xsql-cli's `xx` module (feature `xx`).
+xsql-cli = { path = "../../mirrorboards-xsql/xsql-cli", features = ["xx"] }
 # `xx update`: the newest release of xx on GitHub, its archive and the swap of this program.
 self_update = { version = "0.42", default-features = false, features = ["archive-tar", "compression-flate2", "rustls"] }
 sha2 = "0.10"

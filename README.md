@@ -62,6 +62,10 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | `xx vault lock <NAME>... \| --all` | blokuje skarbiec teraz (`xkeys-cli/src/xx/vault/lock.rs`) |
 | `xx vault sync <NAME> [--to <URL>]` | synchronizuje teraz; `--to file://…` zaczyna synchronizację w folderze (`xkeys-cli/src/xx/vault/sync.rs`) |
 | `xx identity create <VAULT>/<NAME>` | tworzy tożsamość w odblokowanym skarbcu (`xkeys-cli/src/xx/identity/create.rs`) |
+| `xx sql query <ROOM> <SQL> [-o table\|json\|csv]` | wiersze zapytania do bazy pokoju (`xsql-cli/src/xx/sql/query.rs`) |
+| `xx sql exec <ROOM> [SQL]... [--file <FILE>\|-]` | instrukcje po kolei, zmiany idą do pokoju jednym rekordem (`xsql-cli/src/xx/sql/exec.rs`) |
+| `xx sql export <ROOM> <FILE> [--follow]` | odszyfrowana baza pokoju w pliku SQLite (`xsql-cli/src/xx/sql/export.rs`) |
+| `xx sql snapshot <ROOM>` | migawka bazy dla nowych członków (`xsql-cli/src/xx/sql/snapshot.rs`) |
 | `xx stacks init <PATH> --identity <VAULT>/<IDENTITY>` | zakłada albo sprawdza hasło platformy (`dev-cli-xstacks/src/xx/stacks/init.rs`) |
 | `xx stacks deploy <PATH>` | wdraża stack, grupę albo platformę (`dev-cli-xstacks/src/xx/stacks/deploy.rs`) |
 | `xx stacks preview <PATH>` | pokazuje, co zmieniłby deploy (`dev-cli-xstacks/src/xx/stacks/preview.rs`) |

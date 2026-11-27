@@ -9,6 +9,12 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ### Added
 
+- `xx sql query|exec|export|snapshot <ROOM>`: a room's SQLite database for a person. The room is
+  `1.24.N` or `<OWNER>/<NAME>`; without `--identity` the only identity here with access acts,
+  for its own account or, with `--as` or when it is the only one, for a company it signs for
+  alone. `query` prints a framed table, `-o json` an object per row or `-o csv`; a locked vault
+  opens for the command only, at a terminal.
+
 - A vault session started by an older xx reopens with this one at the terminal, for the time it
   had left; `xx vault list` shows it as `Unlocked (old)`, and `xx update` locks every session,
   as they run the old program.

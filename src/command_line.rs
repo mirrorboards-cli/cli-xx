@@ -34,6 +34,9 @@ enum Command {
     /// Mirrorboard instances: infra deploys them, owners sign their parts
     #[command(subcommand)]
     Mirrorboard(mirrornet_cli::xx::mirrorboard::Command),
+    /// Rooms' SQLite databases: query them, change them, export or snapshot them
+    #[command(subcommand)]
+    Sql(xsql_cli::xx::sql::Command),
     /// Pulumi platforms: deploy and preview their stacks
     #[command(subcommand)]
     Stacks(mirrorboards_xstacks::xx::stacks::Command),
@@ -105,6 +108,16 @@ fn run(command: Command) -> Result<()> {
                 .context("cannot start the async runtime")?;
 
             runtime.block_on(mirrornet_cli::xx::mirrorboard::run(command))
+        }
+        Command::Sql(command) => {
+            // One thread: the database work runs on a blocking thread, and the chain's connection
+            // stays on this runtime meanwhile.
+            let runtime = tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .context("cannot start the async runtime")?;
+
+            runtime.block_on(xsql_cli::xx::sql::run(command))
         }
         Command::Wallet(command) => {
             let runtime = tokio::runtime::Builder::new_current_thread()
