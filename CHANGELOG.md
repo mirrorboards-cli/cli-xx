@@ -27,7 +27,8 @@ lines under its version, and the section becomes the notes of the GitHub release
   one on PATH is another version. cargo is checked before the run.
 - A release carries Pulumi's Rust language host, `pulumi-language-rust`, beside xx, under the same
   signature; `install.sh` and `xx update` put it beside xx, and `xx mirrorboard deploy` puts it
-  first in Pulumi's PATH.
+  first in Pulumi's PATH. The `xx update` of 0.4.0 or older replaces xx alone: `install.sh` once
+  puts the language host beside it.
 - `xx mirrorboard deploy` reads again, before a run, the rooms whose members changed on the chain,
   so the state shows who is in them; a room with attention only where its owner's session runs.
   A member let in outside the program is named in a plain line and left in, and GitHub gets it in
