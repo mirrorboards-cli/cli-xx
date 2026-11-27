@@ -7,6 +7,16 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+### Fixed
+
+- `xx mirrorboard sign` and `xx mirrorboard withdraw` end at once after Ctrl+C at their question;
+  before, they waited for Enter. The end of input (Ctrl+D) ends the prompt's line too.
+- `xx mirrorboard sign` forgets the journal entries of proposals that ended without its
+  completion, such as one infra withdrew with `--approved` while it was approved.
+- `xx mirrorboard deploy` names a change it took from a proposal its owner signed after the
+  earlier run ended by the room or member, e.g. `✓ room dropzone: deleted by its owner's
+  proposal`, not by the resource's name as if the run had made it.
+
 ## [0.5.1] - 2026-11-27
 
 ### Added
