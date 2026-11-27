@@ -7,6 +7,24 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-11-27
+
+### Added
+
+- `xx mirrorboard github [PATH] --identity <VAULT>/<IDENTITY> --registrar <URL>`: sets an
+  instance up to deploy from GitHub Actions. It makes the CI vault (synced into a folder,
+  `--sync=file://…`) and its account, paid by the XSystem's registrar; seals a slot of the stack's
+  passphrase for CI, or makes a new stack with slots of CI and of `--identity`; sets the
+  repository's secrets `INFRA_RECOVERY_CODE` (the recovery code, shown nowhere) and `INFRA_VAULT`
+  through `gh`; and opens a pull request with a workflow that calls the shared one of
+  `mirrorboards/mirrorboard-deploy`. A second run writes only what is missing. `--preview` shows
+  the steps and does nothing.
+
+### Fixed
+
+- `xx mirrorboard deploy` and its `--preview` read a stack that was made but never deployed, whose
+  export has no resources, instead of refusing it.
+
 ## [0.5.0] - 2026-11-27
 
 ### Added
@@ -250,7 +268,8 @@ The first release, for macOS on Apple Silicon (macOS 15 or newer).
   identity, chosen by itself when one vault here has a slot.
 - `xx update` and `install.sh`: install and update from the GitHub releases, checked by sha256.
 
-[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.2.0...v0.3.0

@@ -14,7 +14,7 @@ rev = "d21b75965679870473068f045670cb40fd463c01"
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-cli.git"
 path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-cli"
-rev = "c4bb1204766bce044d3341304905ed70df7ff004"
+rev = "14f46db56d5a065d040f92f07da48cd8c7f72eef"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-query-korea-api.git"
@@ -81,7 +81,7 @@ rev = "8fc413872d015fa53d74b9080ca0729cb1f33573"
 [[repositories]]
 git = "git@github.com:mirrorboards/mirrorboards-mirrorboard-pulumi.git"
 path = "mirrorboards-core/mirrorboards/mirrorboards-mirrorboard-pulumi"
-rev = "4d4396ace72a721c0e926dfd0dfcef963f8fa8de"
+rev = "0d67627b38adadfd3546d46dc7815bd4365340f0"
 
 [[repositories]]
 git = "git@github.com:pulumi-labs/pulumi-rust.git"

@@ -85,6 +85,7 @@ cargo install --path .      # albo xx w ~/.cargo/bin
 | `xx wallet create_company_account <NAME> --founder <VAULT>/<IDENTITY> --member <ACCOUNT>=<WEIGHT>... --threshold <N> --registrar <URL>` | konto firmy przez rejestratora XSystemu; owner i active z tymi samymi wagami (`mirrornet-cli/src/xx/wallet/create_company_account.rs`) |
 | `xx mirrorboard deploy [PATH] --identity <VAULT>/<IDENTITY>` | infra wdraża instancję mirrorboarda; kod wyjścia 3, gdy czekają podpisy (`mirrornet-cli/src/xx/mirrorboard/deploy.rs`) |
 | `xx mirrorboard sign <HOST>/<CODE>` | właściciel podpisuje u siebie to, na co czeka wdrożenie (`mirrornet-cli/src/xx/mirrorboard/sign.rs`) |
+| `xx mirrorboard github [PATH] --identity <VAULT>/<IDENTITY> --registrar <URL>` | ustawia instancję do wdrażania z GitHub Actions: skarbiec i konto CI, slot hasła stosu, dwa sekrety i workflow wspólny z `mirrorboards/mirrorboard-deploy`, w pull requeście (`mirrornet-cli/src/xx/mirrorboard/github_setup.rs`) |
 | `xx release publish <TAG> --identity <VAULT>/<IDENTITY> [--draft]` | buduje w CI, podpisuje i publikuje wydanie `xx` (`src/commands/release.rs`) |
 | `xx update [--check] [--version <TAG>]` | podmienia `xx` na najnowsze wydanie z GitHuba (`src/commands/update.rs`) |
 | `xx completion fish\|zsh\|bash` | skrypt dopełniania po Tab: polecenia, flagi, skarbce, tożsamości, sieci (`src/completion.rs`); `install.sh` zakłada go sam |
