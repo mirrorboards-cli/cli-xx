@@ -7,11 +7,19 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+### Added
+
+- `xx mirrorboard deploy` names who decided: `signed by kacper-dela for acta-network` for a
+  member who signs for a company alone (XSystem's new `decided_by_member`), `signed by ai-payer
+  and ai-payee for ai-joint-company` for members who approve together, and `refused by ai-payee
+  for ai-joint-company`; `-o json` gives `signed_by_members`.
+
 ### Fixed
 
 - `xx mirrorboard deploy` takes a room or member its owner made by a proposal after the run that
   proposed it ended, also when the program changed the resource since, e.g. the room's
   description, and proposes the change; before, it proposed a second room.
+  Its line says `✓ room notes: changed by its owner's proposal`.
 - `xx mirrorboard sign` and `xx mirrorboard withdraw` end at once after Ctrl+C at their question;
   before, they waited for Enter. The end of input (Ctrl+D) ends the prompt's line too.
 - `xx mirrorboard sign` forgets the journal entries of proposals that ended without its
