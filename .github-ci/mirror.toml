@@ -91,7 +91,7 @@ rev = "d62e9f213321befce6f870971e191c9f3946b967"
 [[repositories]]
 git = "git@github.com:mirrorboards-xmeta/xmeta-rust.git"
 path = "mirrorboards-core/mirrorboards-xmeta/xmeta-rust"
-rev = "13de73257d36e8a7f8698758cfd47f2cbe8e7f8b"
+rev = "f78d373d1ee553f5eaf552d37ccb7784d357c428"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xplatform/xplatform-korea-api.git"
@@ -102,7 +102,7 @@ rev = "9da8e6dc2c1bb2a694033a0d5c1f7a4c554cf42a"
 [[repositories]]
 git = "git@github.com:mirrorboards-xgit/xgit-cli.git"
 path = "mirrorboards-core/mirrorboards-xgit/xgit-cli"
-rev = "eafe9e75a2e4dcea9ad741de142dc65916f9898d"
+rev = "af8fdc8334cb35f2ab9fc92dad253a2af4afc81d"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xgit/xgit-core.git"
@@ -112,7 +112,7 @@ rev = "af9506b7b14e3579a569f1033ce4c76dc19e7c63"
 [[repositories]]
 git = "git@github.com:mirrorboards-xsql/xsql-cli.git"
 path = "mirrorboards-core/mirrorboards-xsql/xsql-cli"
-rev = "a923294f5fe82fa9fdb2f4d855f41392ded3fb16"
+rev = "e52bf308c8bb7b3d037484499a574338f86cc502"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xsql/xsql-core.git"
