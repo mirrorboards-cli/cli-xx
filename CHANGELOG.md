@@ -62,6 +62,16 @@ lines under its version, and the section becomes the notes of the GitHub release
   outputs), `--only-when-signed` (resume from cron only when something was signed),
   `--preview -o markdown` (the pull request comment), and `xx vault import … --unlock-for` (infra's
   vault from the repository's secrets, opened with its recovery code).
+- `xx wallet create_content_card <PAYER> <AUTHOR> <ROOM> <FILE> --type <TYPE>`: a card of an
+  encrypted room whose content, at most 64 MiB, the vault session seals with a new key; the
+  sealed bytes go to the room's XGit (`--xgit`, or the network's) before the card goes to the
+  chain.
+- `xx wallet update_content_card <PAYER> <CALLER> <CARD> [--file <FILE>] [--type <TYPE>]
+  [--description <TEXT>] [--expected-revision <N>]`: new content gets a new key in the room's
+  current epoch, and the command names the grants the chain dropped, to issue again.
+- `xx wallet read_content_card <CARD> <FILE|->`: the content of a card into a file (0600) or to
+  standard output, for a member of its room holding the card's epoch, or for the holder of a grant
+  of the card; `--identity` and `--as` choose who reads when several identities here could.
 
 ### Changed
 
@@ -73,6 +83,13 @@ lines under its version, and the section becomes the notes of the GitHub release
   `tab_deposit`, which spend the sponsor's money.
 - The built-in network `mirrorboards` is the Mirrornet mainnet restarted on 2026-11-26 (chain id
   `93c660a5…`), and it no longer carries XBilling's key.
+- The room writes of `xx wallet` act for a company account the identity signs for alone: its
+  room keys open through the company's memo key, which the XSystem keeps wrapped for the member.
+
+### Fixed
+
+- `xx wallet grant_content_card` for a card of a company's room: the session tried the epoch
+  envelope with the person's memo key and refused it.
 
 ## [0.3.0] - 2026-11-25
 
