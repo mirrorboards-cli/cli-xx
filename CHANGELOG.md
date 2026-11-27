@@ -7,13 +7,14 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-11-27
+
 ### Added
 
 - `xx mirrorboard deploy` names who decided: `signed by kacper-dela for acta-network` for a
   member who signs for a company alone (XSystem's new `decided_by_member`), `signed by ai-payer
   and ai-payee for ai-joint-company` for members who approve together, and `refused by ai-payee
   for ai-joint-company`; `-o json` gives `signed_by_members`.
-
 - The mirrorboard plugin proposes a change of a room's name, description or attention to its
   owner and to its members with `updateRoom`, as the chain lets them change the room, and XPlatform
   takes the attention from them. A company whose members approve only together orders its rooms'
@@ -297,7 +298,8 @@ The first release, for macOS on Apple Silicon (macOS 15 or newer).
   identity, chosen by itself when one vault here has a slot.
 - `xx update` and `install.sh`: install and update from the GitHub releases, checked by sha256.
 
-[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.1...HEAD
+[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.2...HEAD
+[0.5.2]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.3.0...v0.4.0
