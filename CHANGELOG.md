@@ -42,6 +42,22 @@ lines under its version, and the section becomes the notes of the GitHub release
   status 3 while proposals wait. The stack's passphrase lives in an XKeys slot of infra's identity.
 - `xx mirrorboard sign <HOST>/<CODE>`: the owner sees what a deployment waits for from their
   accounts, answers once for the whole list, and signs it in their own vault session.
+- A room's members are resources of their own (`mirrorboard:index:RoomMember`). `sign` shows who
+  gets into which room, with which flags, and who pays.
+- A proposal has several owners, any one of whom signs it for all: the room's owner, and for a
+  member also the members the chain lets act for the room's members. `deploy` shows
+  "waits for a or b" and who signed.
+- `xx mirrorboard sign --parallel <N>` carries out that many proposals of a list at once (50 by
+  default). A journal keeps what `sign` did, so a proposal signed while XSystem was away is
+  finished later. `--settle-unknown` settles the proposals approved earlier whose outcome is
+  unknown here by what the chain shows.
+- `xx mirrorboard deploy` makes the first stack of a new instance itself. Before each run it reads
+  again the members changed by hand on the chain, so the run brings them back to the program, and
+  it names the members of the stack's rooms that the program does not declare, leaving them in.
+  After a run it lists only what the run changed, and counts the rest in one line,
+  `N resource(s) unchanged`; in `-o json`, `result` says what was done.
+- `xx mirrorboard passphrase add [PATH] --identity <VAULT>/<IDENTITY>`: one more identity, e.g.
+  a CI vault's, gets a slot of an instance's passphrase; only `.stacks/passphrase` is committed.
 - For GitHub Actions: `xx mirrorboard deploy --github` (job summary, notice or error, step
   outputs), `--only-when-signed` (resume from cron only when something was signed),
   `--preview -o markdown` (the pull request comment), and `xx vault import … --unlock-for` (infra's
@@ -51,6 +67,12 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 - `xx wallet register_account` gives the new account the memo key of the identity named as
   `ACTIVE`, so memos work without `update_account_keys`; an `MBT…` key is still also the memo key.
+- `xx wallet create_fee_grant` takes a budget per asset, `asset:total[:per_period]`, and
+  `update_fee_grant --new-budgets` replaces them, as the chain restarted on 2026-11-26 keeps them;
+  `--period-budget` is gone. Without `--operations` a grant leaves out `tab_create` and
+  `tab_deposit`, which spend the sponsor's money.
+- The built-in network `mirrorboards` is the Mirrornet mainnet restarted on 2026-11-26 (chain id
+  `93c660a5…`), and it no longer carries XBilling's key.
 
 ## [0.3.0] - 2026-11-25
 
