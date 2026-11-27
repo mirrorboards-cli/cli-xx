@@ -28,6 +28,9 @@ struct Arguments {
 
 #[derive(Subcommand)]
 enum Command {
+    /// What XBilling charges your account: usage, a room, the dues of a day, records, settlements
+    #[command(subcommand)]
+    Billing(xbilling_cli::xx::billing::Command),
     /// Rooms' git repositories: upload files, list them, clone a room for plain git
     #[command(subcommand)]
     Git(xgit_cli::xx::git::Command),
@@ -106,6 +109,14 @@ fn run(command: Command) -> Result<()> {
         Command::Git(command) => xgit_cli::xx::git::run(command),
         // Synchronous: xstacks makes its own runtime for each call to a vault's session.
         Command::Stacks(command) => mirrorboards_xstacks::xx::stacks::run(command),
+        Command::Billing(command) => {
+            let runtime = tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .context("cannot start the async runtime")?;
+
+            runtime.block_on(xbilling_cli::xx::billing::run(command))
+        }
         Command::Identity(command) => {
             let runtime = tokio::runtime::Builder::new_current_thread()
                 .enable_all()

@@ -31,6 +31,8 @@ xkeys-cli = { path = "../../mirrorboards-xkeys/xkeys-cli" }
 mirrorboards-xstacks = { path = "../../mirrorboards-dev/dev-cli-xstacks" }
 # `xx wallet …`: the methods of Mirrornet's cli_wallet, from mirrornet-cli's `xx` module.
 mirrornet-cli = { path = "../../mirrorboards-mirrornet/mirrornet-cli" }
+# `xx billing …`: what XBilling charges an account, from xbilling-cli's `xx` module (feature `xx`).
+xbilling-cli = { path = "../../mirrorboards-xbilling/xbilling-cli", features = ["xx"] }
 # `xx sql …`: rooms' SQLite databases, from xsql-cli's `xx` module (feature `xx`).
 xsql-cli = { path = "../../mirrorboards-xsql/xsql-cli", features = ["xx"] }
 # `xx git …`: rooms' git repositories and files, from xgit-cli's `xx` module (feature `xx`); git

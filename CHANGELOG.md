@@ -13,6 +13,11 @@ lines under its version, and the section becomes the notes of the GitHub release
   --member <ACCOUNT>=<WEIGHT>... --threshold <N> [--yes]`: new weights and a new threshold for a
   company's members, in its owner and active alike. A member who signs alone now signs, the
   company pays, and a change after which nobody signs alone asks first.
+- `xx billing usage|room|dues|records|settlements`: what XBilling charges your account, or with
+  `--as` a company's. `usage` sums the daily dues of whole UTC days by kind; `room <ROOM>` shows
+  a room's life and its hourly storage as XBilling sampled it, beside the bytes its members read
+  from XGit and XSQL now; `dues` prices one day line by line; `records [--room <ROOM>]` and
+  `settlements` read as in `x billing`.
 
 ## [0.4.0] - 2026-11-27
 
