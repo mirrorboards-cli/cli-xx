@@ -28,6 +28,11 @@ lines under its version, and the section becomes the notes of the GitHub release
 - A release carries Pulumi's Rust language host, `pulumi-language-rust`, beside xx, under the same
   signature; `install.sh` and `xx update` put it beside xx, and `xx mirrorboard deploy` puts it
   first in Pulumi's PATH.
+- `xx mirrorboard deploy` reads again, before a run, the rooms whose members changed on the chain,
+  so the state shows who is in them; a room with attention only where its owner's session runs.
+  A member let in outside the program is named in a plain line and left in, and GitHub gets it in
+  the summary without a warning.
+- `xx mirrorboard sign` shows a fee exactly where the chain does not charge it by size.
 
 ## [0.4.0] - 2026-11-27
 
