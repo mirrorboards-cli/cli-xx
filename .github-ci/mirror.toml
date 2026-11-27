@@ -4,7 +4,7 @@
 [[repositories]]
 git = "git@github.com:mirrorboards-cli/cli-runtime.git"
 path = "mirrorboards-core/mirrorboards-cli/cli-runtime"
-rev = "0357957374bf4976017aae8bb457657cb93809b7"
+rev = "6b52380a5913615c8c45e0ed4bb7744f5e95201b"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-dev/dev-cli-xstacks.git"
@@ -14,7 +14,7 @@ rev = "d21b75965679870473068f045670cb40fd463c01"
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-cli.git"
 path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-cli"
-rev = "905be551ed9cf75ce5b1ed2476e34cf864c94d34"
+rev = "4f9d3e89e76d6f569374574003585c8883358a98"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-query-korea-api.git"
@@ -24,7 +24,7 @@ rev = "b78a6eacbb7f1f935a4242534862ff10bc2db09b"
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-rs.git"
 path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-rs"
-rev = "65132cc5b435d4be9aa98f5abd50588c5bed903f"
+rev = "bc550cb921126c027536048a5527e408e0267669"
 
 [[repositories]]
 git = "git@github.com:open-graphene/open-graphene.git"
@@ -81,7 +81,7 @@ rev = "8fc413872d015fa53d74b9080ca0729cb1f33573"
 [[repositories]]
 git = "git@github.com:mirrorboards/mirrorboards-mirrorboard-pulumi.git"
 path = "mirrorboards-core/mirrorboards/mirrorboards-mirrorboard-pulumi"
-rev = "eaecbdbc19fd9fdcded24f606ad7c9af450754d8"
+rev = "4d4396ace72a721c0e926dfd0dfcef963f8fa8de"
 
 [[repositories]]
 git = "git@github.com:pulumi-labs/pulumi-rust.git"
@@ -137,3 +137,4 @@ rev = "441fac256d62cc91d6f8bd05b868e3cb31a07c5a"
 [[repositories]]
 git = "git@github.com:mirrorboards-xbilling/xbilling-cli.git"
 path = "mirrorboards-core/mirrorboards-xbilling/xbilling-cli"
+rev = "9c7df43e74af43a2739cc8c9da87687e8c78f78a"
