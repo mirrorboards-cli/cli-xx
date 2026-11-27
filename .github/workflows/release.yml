@@ -184,7 +184,10 @@ jobs:
             keep && /^\[[^]]+\]: / { exit }
             keep { print }
           ' "$changelog" > "$notes"
+          # The tag goes on the commit the archives were built from, not on whatever main is when
+          # the release is published.
           gh release create "$VERSION" --repo "$GITHUB_REPOSITORY" --draft \
+            --target "$GITHUB_SHA" \
             --title "xx ${VERSION#v}" --notes-file "$notes" \
             archives/xx-macos-arm64.tar.gz archives/xx-macos-arm64.tar.gz.sha256 \
             archives/xx-linux-x64.tar.gz archives/xx-linux-x64.tar.gz.sha256
