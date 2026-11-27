@@ -14,6 +14,11 @@ lines under its version, and the section becomes the notes of the GitHub release
   and ai-payee for ai-joint-company` for members who approve together, and `refused by ai-payee
   for ai-joint-company`; `-o json` gives `signed_by_members`.
 
+- The mirrorboard plugin proposes a change of a room's name, description or attention to its
+  owner and to its members with `updateRoom`, as the chain lets them change the room, and XPlatform
+  takes the attention from them. A company whose members approve only together orders its rooms'
+  attention through such a member. Its register still changes only by its owner.
+
 ### Fixed
 
 - `xx mirrorboard deploy` takes a room or member its owner made by a proposal after the run that
