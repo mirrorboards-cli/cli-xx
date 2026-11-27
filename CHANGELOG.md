@@ -9,6 +9,9 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ### Fixed
 
+- `xx mirrorboard deploy` takes a room or member its owner made by a proposal after the run that
+  proposed it ended, also when the program changed the resource since, e.g. the room's
+  description, and proposes the change; before, it proposed a second room.
 - `xx mirrorboard sign` and `xx mirrorboard withdraw` end at once after Ctrl+C at their question;
   before, they waited for Enter. The end of input (Ctrl+D) ends the prompt's line too.
 - `xx mirrorboard sign` forgets the journal entries of proposals that ended without its
