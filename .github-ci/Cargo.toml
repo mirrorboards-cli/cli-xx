@@ -16,6 +16,12 @@ members = [
 exclude = [
     "mirrorboards-core/mirrorboards-mirrornet",
     "mirrorboards-core/mirrorboards-open-graphene",
+    # The Turso fork has a workspace of its own, as in the root: without this, its crates (built
+    # for xx sql) would inherit from this root and fail on workspace.package.version.
+    "mirrorboards-core/mirrorboards-xsql/xsql-turso",
+    # XMeta's Rust crates have a workspace of their own (xmeta-rust); Cargo would take this root
+    # for them, which it has read already, and fail on workspace.package.publish.
+    "mirrorboards-core/mirrorboards-xmeta",
 ]
 resolver = "3"
 

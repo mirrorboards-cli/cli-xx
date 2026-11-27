@@ -4,32 +4,32 @@
 [[repositories]]
 git = "git@github.com:mirrorboards-cli/cli-runtime.git"
 path = "mirrorboards-core/mirrorboards-cli/cli-runtime"
-rev = "8c79c42b0fb8a8aea710b293d022baee495481af"
+rev = "0357957374bf4976017aae8bb457657cb93809b7"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-dev/dev-cli-xstacks.git"
 path = "mirrorboards-core/mirrorboards-dev/dev-cli-xstacks"
-rev = "95a6e20fb981cfc4e8c0097538bf04ea1c04f6ae"
+rev = "d21b75965679870473068f045670cb40fd463c01"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-cli.git"
 path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-cli"
-rev = "c758f9862ba4bd9a5aa62e410c4db3860e44f700"
+rev = "905be551ed9cf75ce5b1ed2476e34cf864c94d34"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-query-korea-api.git"
 path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-query-korea-api"
-rev = "26499e1885f8ee43e2b068505438c74a34cc7eb8"
+rev = "b78a6eacbb7f1f935a4242534862ff10bc2db09b"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-rs.git"
 path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-rs"
-rev = "66dec5121bf0bd23e2a6bf61d73fad23d878c05f"
+rev = "65132cc5b435d4be9aa98f5abd50588c5bed903f"
 
 [[repositories]]
 git = "git@github.com:open-graphene/open-graphene.git"
 path = "mirrorboards-core/mirrorboards-open-graphene/open-graphene"
-rev = "ef8bb3953df9d28957248b181657ef11f9326a88"
+rev = "dc55a8088f40a62ba858f0e14a91da2d36665584"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xauth/xauth-korea-api.git"
@@ -44,12 +44,12 @@ rev = "853f0560878a0bc1f664de4d4bc6d3cb1b6cc840"
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-chain.git"
 path = "mirrorboards-core/mirrorboards-xkeys/xkeys-chain"
-rev = "8764b22907b5d6f26d25feac0aa989d3ffe69600"
+rev = "7697087f03902e45685178bb57e11fc2a6ab3871"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-cli.git"
 path = "mirrorboards-core/mirrorboards-xkeys/xkeys-cli"
-rev = "38f71f3e6b58e3202280da12503d2a5b4dfbdb39"
+rev = "72f782c9a764bb4ab93dd646ea68b99f013c70b5"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-core.git"
@@ -74,4 +74,62 @@ rev = "96788a34de9067be866027721e94e025f32e0a02"
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-session.git"
 path = "mirrorboards-core/mirrorboards-xkeys/xkeys-session"
-rev = "83406657138a469f30d29fd7b0c6f71496f98073"
+rev = "8fc413872d015fa53d74b9080ca0729cb1f33573"
+
+# `xx mirrorboard`: the mirrorboard provider's library, which signs and settles as the provider
+# does, with the Pulumi SDK it builds on, XMeta's Rust clients and the XPlatform client.
+[[repositories]]
+git = "git@github.com:mirrorboards/mirrorboards-mirrorboard-pulumi.git"
+path = "mirrorboards-core/mirrorboards/mirrorboards-mirrorboard-pulumi"
+rev = "eaecbdbc19fd9fdcded24f606ad7c9af450754d8"
+
+[[repositories]]
+git = "git@github.com:pulumi-labs/pulumi-rust.git"
+path = "vendors/pulumi-labs/pulumi-rust"
+rev = "d62e9f213321befce6f870971e191c9f3946b967"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xmeta/xmeta-rust.git"
+path = "mirrorboards-core/mirrorboards-xmeta/xmeta-rust"
+rev = "13de73257d36e8a7f8698758cfd47f2cbe8e7f8b"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xplatform/xplatform-korea-api.git"
+path = "mirrorboards-core/mirrorboards-xplatform/xplatform-korea-api"
+rev = "9da8e6dc2c1bb2a694033a0d5c1f7a4c554cf42a"
+
+# `xx git` and `xx sql`, with the xsql-turso fork at its branch `xsql`.
+[[repositories]]
+git = "git@github.com:mirrorboards-xgit/xgit-cli.git"
+path = "mirrorboards-core/mirrorboards-xgit/xgit-cli"
+rev = "eafe9e75a2e4dcea9ad741de142dc65916f9898d"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xgit/xgit-core.git"
+path = "mirrorboards-core/mirrorboards-xgit/xgit-core"
+rev = "af9506b7b14e3579a569f1033ce4c76dc19e7c63"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xsql/xsql-cli.git"
+path = "mirrorboards-core/mirrorboards-xsql/xsql-cli"
+rev = "a923294f5fe82fa9fdb2f4d855f41392ded3fb16"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xsql/xsql-core.git"
+path = "mirrorboards-core/mirrorboards-xsql/xsql-core"
+rev = "a81c5cc0180a869495576172f03bd59577dca5a6"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xsql/xsql-pages.git"
+path = "mirrorboards-core/mirrorboards-xsql/xsql-pages"
+rev = "c05df21e973e4b12f1997abc33809522c6bb9fc6"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xsql/xsql-protocol.git"
+path = "mirrorboards-core/mirrorboards-xsql/xsql-protocol"
+rev = "6614f5e8fa410fe3f1e0e34a16836e0a61a1aed2"
+
+[[repositories]]
+git = "git@github.com:mirrorboards-xsql/xsql-turso.git"
+path = "mirrorboards-core/mirrorboards-xsql/xsql-turso"
+rev = "441fac256d62cc91d6f8bd05b868e3cb31a07c5a"
