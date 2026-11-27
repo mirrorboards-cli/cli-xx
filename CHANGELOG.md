@@ -56,6 +56,9 @@ lines under its version, and the section becomes the notes of the GitHub release
   that a proposal signed after a waiting run let in, took out or changed is told as "let in by
   this deployment's proposal" (and so on), not as let in outside the program or changed by hand,
   and it no longer goes into the GitHub summary's "Also in the rooms".
+- `xx mirrorboard deploy` ends a waiting run with the same line of each open proposal as it
+  printed during the run: a proposal a company's members approve together reads "the members of
+  <company> approve it together (<who> so far)" at the end too, not only "waits for <company>".
 
 ## [0.4.0] - 2026-11-27
 
