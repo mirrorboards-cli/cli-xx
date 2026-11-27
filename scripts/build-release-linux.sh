@@ -22,10 +22,12 @@ export CARGO_TARGET_DIR="$WORK/target"
 binary="$CARGO_TARGET_DIR/release/xx"
 
 # Pulumi's Rust language host from the pinned pulumi-rust, which xx mirrorboard deploy puts first
-# in Pulumi's PATH (PT-4 of cli-spec xx.typ). Without cgo it needs no library at all.
+# in Pulumi's PATH (PT-4 of cli-spec xx.typ). Without cgo it needs no library at all. No VCS stamp:
+# in the container git refuses the checkouts, which belong to another user than root.
 language_host="$WORK/pulumi-language-rust"
 (cd "$ROOT/vendors/pulumi-labs/pulumi-rust/pulumi-language-rust" \
-  && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-s -w" -o "$language_host" .)
+  && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+     go build -trimpath -buildvcs=false -ldflags "-s -w" -o "$language_host" .)
 
 # xx links only glibc's libraries and libfido2 with what libfido2 needs, all of them in the system.
 ldd "$binary"
