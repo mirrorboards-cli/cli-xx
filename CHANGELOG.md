@@ -30,6 +30,9 @@ lines under its version, and the section becomes the notes of the GitHub release
   their owners may be carrying them out. Only the account that opened the deployment withdraws in
   it. One question, no by default; `--yes` without a terminal. A collecting proposal's proposal of
   the chain stays on the chain until it expires.
+- A release carries xx for Linux x64 too, `xx-linux-x64.tar.gz`. It is built on Debian bookworm,
+  so it runs where glibc is 2.36 or newer, and it needs libfido2 from the system (Debian, Ubuntu:
+  `apt install libfido2-1`). `install.sh` and `xx update` take the archive of their system.
 
 ### Changed
 
@@ -45,6 +48,11 @@ lines under its version, and the section becomes the notes of the GitHub release
   so the state shows who is in them; a room with attention only where its owner's session runs.
   A member let in outside the program is named in a plain line and left in, and GitHub gets it in
   the summary without a warning.
+- `xx release publish` signs every archive of a release, each with its own `.sig`, and refuses a
+  draft that lacks one. Every archive also carries `pulumi.toml`, the Pulumi xx runs, which the
+  deployment image installs ahead.
+- `install.sh` installs only an archive whose signature the release carries and names it, and
+  nothing that does not start on the computer.
 
 ### Fixed
 

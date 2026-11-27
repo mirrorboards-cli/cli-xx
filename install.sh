@@ -4,8 +4,13 @@
 #   curl -fsSL https://raw.githubusercontent.com/mirrorboards-cli/cli-xx/main/install.sh | sh
 #
 # It goes to /usr/local/bin when this user may write there, else to ~/.local/bin; XX_INSTALL_DIR
-# chooses another folder. The archive is checked against the release's sha256 before anything is
-# installed. Afterwards `xx update` keeps it up to date.
+# chooses another folder. The archive of this system is checked against the release's sha256, and
+# only an archive whose signature the release carries is installed. Afterwards `xx update` keeps it
+# up to date, and it checks each signature against the release keys built into xx. This script
+# comes from the same repository as the releases, so it checks only that the signature names this
+# archive.
+#
+# On Linux xx needs glibc 2.36 or newer and libfido2 (Debian, Ubuntu: apt install libfido2-1).
 set -eu
 
 repository="mirrorboards-cli/cli-xx"
@@ -43,7 +48,23 @@ if [ "$expected" != "$actual" ]; then
   exit 1
 fi
 
+if ! curl -fsSL "$releases/$asset.sig" -o "$work/$asset.sig"; then
+  echo "xx: the newest release carries no signature of $asset; xx installs only signed releases" >&2
+  exit 1
+fi
+if ! grep -q "\"sha256\": \"$actual\"" "$work/$asset.sig"; then
+  echo "xx: the release's signature names another archive than the one downloaded; nothing was installed" >&2
+  exit 1
+fi
+
 tar -xzf "$work/$asset" -C "$work"
+
+# A program that does not start here is not installed, e.g. on Linux without libfido2.
+if ! "$work/xx" version > /dev/null 2>&1; then
+  echo "xx does not run on this computer; on Linux it needs glibc 2.36 or newer and libfido2 (Debian, Ubuntu: apt install libfido2-1):" >&2
+  "$work/xx" version >&2 || true
+  exit 1
+fi
 
 folder="${XX_INSTALL_DIR:-}"
 if [ -z "$folder" ]; then

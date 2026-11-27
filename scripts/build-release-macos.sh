@@ -85,10 +85,13 @@ codesign -v "$out/pkg/xx"
 cp "$language_host" "$out/pkg/pulumi-language-rust"
 codesign -s - -f "$out/pkg/pulumi-language-rust"
 codesign -v "$out/pkg/pulumi-language-rust"
+# The Pulumi xx runs (PT-3), as in every archive of a release.
+cp "$ROOT/mirrorboards-core/mirrorboards-mirrornet/mirrornet-cli/src/xx/mirrorboard/pulumi.toml" "$out/pkg/"
 
-# xx and the language host at the archive's root, and its sha256 as shasum prints it.
+# xx, the language host and the Pulumi pins at the archive's root, and its sha256 as shasum
+# prints it.
 cd "$out"
-COPYFILE_DISABLE=1 tar -czf xx-macos-arm64.tar.gz -C pkg xx pulumi-language-rust
+COPYFILE_DISABLE=1 tar -czf xx-macos-arm64.tar.gz -C pkg xx pulumi-language-rust pulumi.toml
 shasum -a 256 xx-macos-arm64.tar.gz > xx-macos-arm64.tar.gz.sha256
 shasum -a 256 -c xx-macos-arm64.tar.gz.sha256
 rm -rf pkg

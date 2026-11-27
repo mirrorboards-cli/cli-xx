@@ -1,11 +1,13 @@
 //! `xx update`: this program replaced by its newest release on GitHub, as the owner accepted it on
 //! 2026-11-25 (`cli-spec/xx.typ`). Releases live in the public repository mirrorboards-cli/cli-xx,
-//! tagged `v<version>`, each with `xx-<os>-<arch>.tar.gz` and its `.sha256`.
+//! tagged `v<version>`, each with an archive for every system xx runs on,
+//! `xx-<os>-<arch>.tar.gz`, its `.sha256` and its `.sig`. This program takes the archive of its own
+//! system and processor.
 //!
-//! The archive is checked against its sha256 before anything changes, and this program is swapped
-//! by renaming the new one into its place, so a failure leaves the old one whole. The checksum
-//! guards against a broken download, not against someone who takes over the repository; signing
-//! the releases is a later step.
+//! The archive is checked against its sha256 and its signature before anything changes, and this
+//! program is swapped by renaming the new one into its place, so a failure leaves the old one
+//! whole. The checksum guards against a broken download; the signature, made with a key built
+//! into this program, against someone who takes over the repository.
 
 use std::io::Read;
 use std::path::Path;
@@ -403,7 +405,12 @@ mod tests {
         assert_eq!(std::fs::read(&beside).unwrap(), b"new host");
         let mode = std::fs::metadata(&beside).unwrap().permissions().mode();
         assert_eq!(mode & 0o777, 0o755);
-        assert!(!installed.path().join(".pulumi-language-rust.incoming").exists());
+        assert!(
+            !installed
+                .path()
+                .join(".pulumi-language-rust.incoming")
+                .exists()
+        );
     }
 
     #[test]

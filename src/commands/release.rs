@@ -1,8 +1,9 @@
 //! `xx release publish <TAG> --identity <VAULT>/<IDENTITY> [--draft]`: the whole release of xx in
-//! one command (owner, 2026-11-25). GitHub Actions builds the draft (`.github/workflows/release.yml`),
-//! this computer signs its archive with an XKeys identity (`crate::release_signature`), checks the
-//! signature as `xx update` will, uploads it and publishes the release. The signing key never
-//! leaves the vault; GitHub is reached through the `gh` command line, signed in already.
+//! one command (owner, 2026-11-25). GitHub Actions builds the draft (`.github/workflows/release.yml`)
+//! with an archive for each system xx runs on, this computer signs every archive with an XKeys
+//! identity (`crate::release_signature`), checks each signature as `xx update` will, uploads them
+//! and publishes the release. The signing key never leaves the vault; GitHub is reached through the
+//! `gh` command line, signed in already.
 
 use std::path::{Path, PathBuf};
 use std::process::Command as Process;
@@ -17,7 +18,9 @@ use crate::release_signature::{RELEASE_KEYS, ReleaseSignature, digest};
 
 const REPOSITORY: &str = "mirrorboards-cli/cli-xx";
 const WORKFLOW: &str = "release.yml";
-const ARCHIVE: &str = "xx-macos-arm64.tar.gz";
+/// The archives of a release, one for each system xx runs on, each signed on its own: the
+/// signature binds the version and the archive's sha256 (`release_signature::digest`).
+const ARCHIVES: [&str; 2] = ["xx-macos-arm64.tar.gz", "xx-linux-x64.tar.gz"];
 /// How often the build is asked about while it runs.
 const POLL: Duration = Duration::from_secs(20);
 
@@ -59,12 +62,13 @@ async fn publish(arguments: PublishArguments) -> Result<()> {
         ReleaseState::Published => {
             bail!("{tag} is published already");
         }
-        ReleaseState::Draft { has_archive: true } => {
-            eprintln!("{tag}: the draft has its archive; signing it");
+        ReleaseState::Draft { missing } if missing.is_empty() => {
+            eprintln!("{tag}: the draft has its archives; signing them");
         }
-        ReleaseState::Draft { has_archive: false } => {
+        ReleaseState::Draft { missing } => {
             bail!(
-                "the draft {tag} has no {ARCHIVE}; delete it (gh release delete {tag} -R {REPOSITORY}) and run again"
+                "the draft {tag} has no {}; delete it (gh release delete {tag} -R {REPOSITORY}) and run again",
+                missing.join(", ")
             );
         }
         ReleaseState::Missing => {
@@ -72,12 +76,15 @@ async fn publish(arguments: PublishArguments) -> Result<()> {
         }
     }
 
-    let directory = download_archive(tag)?;
-    let archive = directory.join(ARCHIVE);
-    let archive_sha256 = checked_sha256(&archive)?;
+    let directory = download_archives(tag)?;
+    let mut archive_sha256s = Vec::new();
+    for archive in ARCHIVES {
+        let archive_sha256 = checked_sha256(&directory.join(archive))?;
+        archive_sha256s.push(archive_sha256);
+    }
 
-    let signed = digest(tag, &archive_sha256);
-    let (signer, signature) =
+    // One session signs every archive, so the vault opens once.
+    let (signer, signatures) =
         xkeys_cli::xx::one_command_session::with_vault_session(vault, async |session| {
             let description = session.describe_identity(identity).await?;
             let signer = description
@@ -86,32 +93,46 @@ async fn publish(arguments: PublishArguments) -> Result<()> {
                 .find(|key| key.role == "active")
                 .map(|key| key.key.clone())
                 .with_context(|| format!("{vault}/{identity} has no active key"))?;
-            let signature = session.sign_digest(identity, "active", &signed).await?;
 
-            Ok((signer, signature))
+            let mut signatures = Vec::new();
+            for archive_sha256 in &archive_sha256s {
+                let signed = digest(tag, archive_sha256);
+                let signature = session.sign_digest(identity, "active", &signed).await?;
+                signatures.push(signature);
+            }
+
+            Ok((signer, signatures))
         })
         .await?;
 
-    let file = ReleaseSignature::new(tag, &archive_sha256, &signer, &signature);
-    file.check(tag, &archive_sha256, RELEASE_KEYS)
-        .context("xx update would refuse this signature; nothing was uploaded")?;
+    // Every signature is checked before any is uploaded.
+    let mut signature_paths = Vec::new();
+    for ((archive, archive_sha256), signature) in
+        ARCHIVES.iter().zip(&archive_sha256s).zip(&signatures)
+    {
+        let file = ReleaseSignature::new(tag, archive_sha256, &signer, signature);
+        file.check(tag, archive_sha256, RELEASE_KEYS)
+            .with_context(|| {
+                format!("xx update would refuse the signature of {archive}; nothing was uploaded")
+            })?;
 
-    let signature_path = directory.join(format!("{ARCHIVE}.sig"));
-    let mut text = serde_json::to_string_pretty(&file).context("the signature is no JSON")?;
-    text.push('\n');
-    std::fs::write(&signature_path, text)
-        .with_context(|| format!("cannot write {}", signature_path.display()))?;
+        let signature_path = directory.join(format!("{archive}.sig"));
+        let mut text = serde_json::to_string_pretty(&file).context("the signature is no JSON")?;
+        text.push('\n');
+        std::fs::write(&signature_path, text)
+            .with_context(|| format!("cannot write {}", signature_path.display()))?;
+        signature_paths.push(signature_path);
+    }
 
-    gh(&[
-        "release",
-        "upload",
-        tag,
-        "-R",
-        REPOSITORY,
-        "--clobber",
-        path_text(&signature_path)?,
-    ])?;
-    eprintln!("{tag}: signed as {vault}/{identity} (key {signer})");
+    let mut upload = vec!["release", "upload", tag, "-R", REPOSITORY, "--clobber"];
+    for signature_path in &signature_paths {
+        upload.push(path_text(signature_path)?);
+    }
+    gh(&upload)?;
+    eprintln!(
+        "{tag}: {} signed as {vault}/{identity} (key {signer})",
+        ARCHIVES.join(" and ")
+    );
 
     if arguments.draft {
         println!("{tag} stays a draft: gh release edit {tag} -R {REPOSITORY} --draft=false");
@@ -127,7 +148,10 @@ async fn publish(arguments: PublishArguments) -> Result<()> {
 
 enum ReleaseState {
     Missing,
-    Draft { has_archive: bool },
+    /// A draft, with the archives it lacks.
+    Draft {
+        missing: Vec<&'static str>,
+    },
     Published,
 }
 
@@ -174,9 +198,17 @@ fn release_state(tag: &str) -> Result<ReleaseState> {
         return Ok(ReleaseState::Published);
     }
 
-    let has_archive = view.assets.iter().any(|asset| asset.name == ARCHIVE);
+    let missing = missing_archives(&view.assets);
 
-    Ok(ReleaseState::Draft { has_archive })
+    Ok(ReleaseState::Draft { missing })
+}
+
+/// The archives of [`ARCHIVES`] that `assets` lack.
+fn missing_archives(assets: &[Asset]) -> Vec<&'static str> {
+    ARCHIVES
+        .into_iter()
+        .filter(|archive| !assets.iter().any(|asset| asset.name == *archive))
+        .collect()
 }
 
 #[derive(Deserialize)]
@@ -265,13 +297,17 @@ fn workflow_runs() -> Result<Vec<Run>> {
     serde_json::from_str(&output).context("gh run list gave no runs")
 }
 
-/// The draft's archive and its .sha256, in a directory of their own.
-fn download_archive(tag: &str) -> Result<PathBuf> {
+/// The draft's archives and their .sha256 files, in a directory of their own.
+fn download_archives(tag: &str) -> Result<PathBuf> {
     let directory = std::env::temp_dir().join(format!("xx-release-{tag}-{}", std::process::id()));
     std::fs::create_dir_all(&directory)
         .with_context(|| format!("cannot make {}", directory.display()))?;
 
-    gh(&[
+    let patterns: Vec<String> = ARCHIVES
+        .iter()
+        .flat_map(|archive| [archive.to_string(), format!("{archive}.sha256")])
+        .collect();
+    let mut download = vec![
         "release",
         "download",
         tag,
@@ -280,11 +316,12 @@ fn download_archive(tag: &str) -> Result<PathBuf> {
         "--clobber",
         "-D",
         path_text(&directory)?,
-        "-p",
-        ARCHIVE,
-        "-p",
-        &format!("{ARCHIVE}.sha256"),
-    ])?;
+    ];
+    for pattern in &patterns {
+        download.push("-p");
+        download.push(pattern);
+    }
+    gh(&download)?;
 
     Ok(directory)
 }
@@ -326,4 +363,28 @@ fn gh(arguments: &[&str]) -> Result<String> {
 fn path_text(path: &Path) -> Result<&str> {
     path.to_str()
         .with_context(|| format!("{} is not UTF-8", path.display()))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn asset(name: &str) -> Asset {
+        Asset {
+            name: name.to_owned(),
+        }
+    }
+
+    #[test]
+    fn a_draft_lacks_every_archive_it_does_not_carry() {
+        let only_macos = [
+            asset("xx-macos-arm64.tar.gz"),
+            asset("xx-macos-arm64.tar.gz.sha256"),
+        ];
+        let both = [asset("xx-macos-arm64.tar.gz"), asset("xx-linux-x64.tar.gz")];
+
+        assert_eq!(missing_archives(&only_macos), vec!["xx-linux-x64.tar.gz"]);
+        assert!(missing_archives(&both).is_empty());
+        assert_eq!(missing_archives(&[]), ARCHIVES.to_vec());
+    }
 }

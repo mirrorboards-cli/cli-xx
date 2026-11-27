@@ -1,13 +1,19 @@
 name: Release
 
-# Builds a release of xx and puts it in a draft GitHub release. `xx release publish <TAG>` starts
-# it, or finds the draft it made; it signs the archive, uploads the .sig and publishes the release.
+# Builds a release of xx, an archive for each system it runs on, and puts them in a draft GitHub
+# release. `xx release publish <TAG>` starts it, or finds the draft it made; it signs every
+# archive, uploads the .sig files and publishes the release. With draft set to false the run only
+# builds: the archives stay the run's artifacts, to look at before a release.
 on:
   workflow_dispatch:
     inputs:
       version:
         description: "The release's tag, e.g. v0.2.0; cli-xx/Cargo.toml must carry the same version"
         required: true
+      draft:
+        description: "Draft the release; false keeps the archives as the run's artifacts only"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -92,23 +98,93 @@ jobs:
 
       - name: Build
         env:
-          ROOT: ${{ github.workspace }}/workspace
           VERSION: ${{ inputs.version }}
-        run: workspace/mirrorboards-core/mirrorboards-cli/cli-xx/scripts/build-release-macos.sh
+        run: |
+          ROOT="$GITHUB_WORKSPACE/workspace" WORK="$GITHUB_WORKSPACE/xx-release" \
+            workspace/mirrorboards-core/mirrorboards-cli/cli-xx/scripts/build-release-macos.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xx-macos-arm64
+          path: xx-release/${{ inputs.version }}/xx-macos-arm64.tar.gz*
+          retention-days: 3
+
+  linux-x64:
+    name: Build for Linux x64
+    needs: sources
+    runs-on: ubuntu-latest
+    # Debian bookworm's glibc (2.36), not the runner's newer one: xx then runs on bookworm, as in
+    # the deployment image, and on every newer system.
+    container: rust:1.99-bookworm
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: workspace
+
+      - name: Unpack the workspace
+        run: mkdir -p workspace && tar -xzf workspace.tar.gz -C workspace
+
+      - name: Check the version
+        working-directory: workspace/mirrorboards-core/mirrorboards-cli/cli-xx
+        run: |
+          crate="v$(grep -m1 '^version' Cargo.toml | cut -d '"' -f 2)"
+          if [ "$crate" != "${{ inputs.version }}" ]; then
+            echo "Cargo.toml says $crate, the release is ${{ inputs.version }}" >&2
+            exit 1
+          fi
+
+      # Pulumi's Rust language host, built beside xx (PT-4 of cli-spec xx.typ).
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: workspace/vendors/pulumi-labs/pulumi-rust/pulumi-language-rust/go.mod
+          cache: false
+
+      # In a container the expressions name the runner's paths; the shell's variables name the
+      # container's.
+      - name: Build
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          ROOT="$GITHUB_WORKSPACE/workspace" WORK="$GITHUB_WORKSPACE/xx-release" \
+            workspace/mirrorboards-core/mirrorboards-cli/cli-xx/scripts/build-release-linux.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xx-linux-x64
+          path: xx-release/${{ inputs.version }}/xx-linux-x64.tar.gz*
+          retention-days: 3
+
+  draft:
+    name: Draft the release
+    needs: [macos-arm64, linux-x64]
+    if: inputs.draft
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: xx-*
+          merge-multiple: true
+          path: archives
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: workspace
 
       - name: Draft the release
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ inputs.version }}
         run: |
-          out="$RUNNER_TEMP/xx-release/$VERSION"
+          changelog=./mirrorboards-core/mirrorboards-cli/cli-xx/CHANGELOG.md
+          tar -xzf workspace.tar.gz "$changelog"
           notes="$RUNNER_TEMP/notes.md"
           awk -v v="${VERSION#v}" '
             $0 ~ "^## \\[" v "\\]" { keep = 1; next }
             keep && /^## \[/ { exit }
             keep && /^\[[^]]+\]: / { exit }
             keep { print }
-          ' workspace/mirrorboards-core/mirrorboards-cli/cli-xx/CHANGELOG.md > "$notes"
+          ' "$changelog" > "$notes"
           gh release create "$VERSION" --repo "$GITHUB_REPOSITORY" --draft \
             --title "xx ${VERSION#v}" --notes-file "$notes" \
-            "$out/xx-macos-arm64.tar.gz" "$out/xx-macos-arm64.tar.gz.sha256"
+            archives/xx-macos-arm64.tar.gz archives/xx-macos-arm64.tar.gz.sha256 \
+            archives/xx-linux-x64.tar.gz archives/xx-linux-x64.tar.gz.sha256
