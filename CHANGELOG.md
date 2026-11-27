@@ -18,6 +18,12 @@ lines under its version, and the section becomes the notes of the GitHub release
   a room's life and its hourly storage as XBilling sampled it, beside the bytes its members read
   from XGit and XSQL now; `dues` prices one day line by line; `records [--room <ROOM>]` and
   `settlements` read as in `x billing`.
+- `xx mirrorboard sign` approves together for a company in which no member signs alone. The first
+  member puts the proposal's operations into a proposal of the chain, which lives a week, and
+  approves it; each later member has the provider's own code check those operations against the
+  proposal before it adds its approval, and the member who meets the threshold reports the
+  outcome. The list shows the approvals so far and what each member pays. It needs an XSystem
+  that collects joint approvals (acta-network's main-4b71dca).
 
 ### Changed
 
@@ -33,6 +39,13 @@ lines under its version, and the section becomes the notes of the GitHub release
   so the state shows who is in them; a room with attention only where its owner's session runs.
   A member let in outside the program is named in a plain line and left in, and GitHub gets it in
   the summary without a warning.
+
+### Fixed
+
+- `xx mirrorboard sign` lets a member refuse a proposal that no account here may carry out, e.g.
+  one for a room deleted since it was proposed. Such a proposal stays on the list with its reason:
+  a yes leaves it alone, `n` and `--refuse` refuse it, and a list of only such proposals asks
+  `Refuse all? [y/N]`.
 
 ## [0.4.0] - 2026-11-27
 
