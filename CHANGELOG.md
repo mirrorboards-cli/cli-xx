@@ -7,6 +7,21 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+## [0.5.3] - 2026-11-28
+
+### Changed
+
+- `xx mirrorboard deploy` signs as its `--identity` only: whatever an owner signs is proposed in
+  the deployment, and the owner signs it with `xx mirrorboard sign`, even while the owner's vault
+  is unlocked on the same computer (the owner, 2026-11-28). The mirrorboard plugin signs only with
+  the identities `MIRRORBOARD_SIGNING_IDENTITIES` names, which xx sets; a preview asks every owner
+  outside it.
+- `xx mirrorboard sign` signs as its `--identity` only, and refuses to sign without it.
+
+### Fixed
+
+- A resource the plugin signs itself withdraws its open proposals of the deployment first.
+
 ## [0.5.2] - 2026-11-27
 
 ### Added
@@ -298,7 +313,8 @@ The first release, for macOS on Apple Silicon (macOS 15 or newer).
   identity, chosen by itself when one vault here has a slot.
 - `xx update` and `install.sh`: install and update from the GitHub releases, checked by sha256.
 
-[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.2...HEAD
+[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.3...HEAD
+[0.5.3]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.4.0...v0.5.0

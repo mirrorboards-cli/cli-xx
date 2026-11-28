@@ -9,12 +9,12 @@ rev = "6b52380a5913615c8c45e0ed4bb7744f5e95201b"
 [[repositories]]
 git = "git@github.com:mirrorboards-dev/dev-cli-xstacks.git"
 path = "mirrorboards-core/mirrorboards-dev/dev-cli-xstacks"
-rev = "d21b75965679870473068f045670cb40fd463c01"
+rev = "9c6ce5334d2b4fa282201d1c59ee2521d28cd8f9"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-cli.git"
 path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-cli"
-rev = "b7d9b67be7c35043fefcf20366541bbb94d926a1"
+rev = "6583b8724cbc55ed2dda1af83c874d0e29930d28"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-query-korea-api.git"
@@ -49,7 +49,7 @@ rev = "7697087f03902e45685178bb57e11fc2a6ab3871"
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-cli.git"
 path = "mirrorboards-core/mirrorboards-xkeys/xkeys-cli"
-rev = "72f782c9a764bb4ab93dd646ea68b99f013c70b5"
+rev = "377f16e3a98f9c5fe16675e45d9a99fed80c3f1b"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-core.git"
@@ -74,14 +74,14 @@ rev = "96788a34de9067be866027721e94e025f32e0a02"
 [[repositories]]
 git = "git@github.com:mirrorboards-xkeys/xkeys-session.git"
 path = "mirrorboards-core/mirrorboards-xkeys/xkeys-session"
-rev = "8fc413872d015fa53d74b9080ca0729cb1f33573"
+rev = "8892899a754defb2a33befed3d55f7986cfedbe5"
 
 # `xx mirrorboard`: the mirrorboard provider's library, which signs and settles as the provider
 # does, with the Pulumi SDK it builds on, XMeta's Rust clients and the XPlatform client.
 [[repositories]]
 git = "git@github.com:mirrorboards/mirrorboards-mirrorboard-pulumi.git"
 path = "mirrorboards-core/mirrorboards/mirrorboards-mirrorboard-pulumi"
-rev = "8a8957a4ffe64f06a8322c4bcaa74e5c0bb1c009"
+rev = "959dc41b6f81bc764223abd564693acba030a4d7"
 
 [[repositories]]
 git = "git@github.com:pulumi-labs/pulumi-rust.git"
@@ -127,7 +127,7 @@ rev = "c05df21e973e4b12f1997abc33809522c6bb9fc6"
 [[repositories]]
 git = "git@github.com:mirrorboards-xsql/xsql-protocol.git"
 path = "mirrorboards-core/mirrorboards-xsql/xsql-protocol"
-rev = "6614f5e8fa410fe3f1e0e34a16836e0a61a1aed2"
+rev = "45e39f68306bc80295601864333235d27ac39653"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xsql/xsql-turso.git"
