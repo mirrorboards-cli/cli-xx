@@ -729,7 +729,7 @@ dependencies = [
 
 [[package]]
 name = "cli-xx"
-version = "0.5.3"
+version = "0.5.4"
 dependencies = [
  "anyhow",
  "clap",
@@ -3389,6 +3389,7 @@ name = "pulumi-resource-mirrorboard"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "base64 0.22.1",
  "futures",
  "hex",
  "mirrornet-sdk",
@@ -3404,8 +3405,10 @@ dependencies = [
  "toml 0.8.23",
  "tonic",
  "xkeys-session",
+ "xmeta-description",
  "xmeta-room",
  "xmeta-xsql-room",
+ "xplatform-rules",
  "xplatform-rust-client",
  "xsql-pages",
  "xsql-protocol",
@@ -5890,6 +5893,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "xmeta-description"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "xmeta-room"
 version = "0.1.0"
 dependencies = [
@@ -5902,6 +5913,15 @@ version = "0.1.0"
 dependencies = [
  "xmeta-room",
  "xsql-pages",
+]
+
+[[package]]
+name = "xplatform-rules"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "xkeys-auth-rs",
 ]
 
 [[package]]

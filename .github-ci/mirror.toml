@@ -14,7 +14,7 @@ rev = "9c6ce5334d2b4fa282201d1c59ee2521d28cd8f9"
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-cli.git"
 path = "mirrorboards-core/mirrorboards-mirrornet/mirrornet-cli"
-rev = "6583b8724cbc55ed2dda1af83c874d0e29930d28"
+rev = "d54a1b2315159588d4d308aa992f15ad8787ccb9"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-mirrornet/mirrornet-query-korea-api.git"
@@ -81,7 +81,7 @@ rev = "8892899a754defb2a33befed3d55f7986cfedbe5"
 [[repositories]]
 git = "git@github.com:mirrorboards/mirrorboards-mirrorboard-pulumi.git"
 path = "mirrorboards-core/mirrorboards/mirrorboards-mirrorboard-pulumi"
-rev = "959dc41b6f81bc764223abd564693acba030a4d7"
+rev = "50f4314fb927a151e58690476806b7aaf235f7aa"
 
 [[repositories]]
 git = "git@github.com:pulumi-labs/pulumi-rust.git"
@@ -91,12 +91,12 @@ rev = "d62e9f213321befce6f870971e191c9f3946b967"
 [[repositories]]
 git = "git@github.com:mirrorboards-xmeta/xmeta-rust.git"
 path = "mirrorboards-core/mirrorboards-xmeta/xmeta-rust"
-rev = "f78d373d1ee553f5eaf552d37ccb7784d357c428"
+rev = "99c9bdce57556ae64c810fd2aa2e5f4604c6acf6"
 
 [[repositories]]
 git = "git@github.com:mirrorboards-xplatform/xplatform-korea-api.git"
 path = "mirrorboards-core/mirrorboards-xplatform/xplatform-korea-api"
-rev = "428657717aa2178ab0c05cf89505f54bc5e5f03b"
+rev = "264221c21512e2b34bf27d53369329e4170778bd"
 
 # `xx git` and `xx sql`, with the xsql-turso fork at its branch `xsql`.
 [[repositories]]

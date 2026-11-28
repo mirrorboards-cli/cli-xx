@@ -7,6 +7,24 @@ lines under its version, and the section becomes the notes of the GitHub release
 
 ## [Unreleased]
 
+## [0.5.4] - 2026-11-28
+
+### Added
+
+- The mirrorboard plugin has three new resources: `mirrorboard:index:XAutomation` (an
+  XAutomation born on XPlatform, with its key and settings), `mirrorboard:index:WakePolicy` (what
+  wakes it: an event of a room or a round every so often) and
+  `mirrorboard:index:XJobsAutomation` (an XJobs automation of a room, created by the owner's
+  signature). The preview checks the settings and the wake policy by XPlatform's own rules, and
+  refuses an image built from another commit than the one named.
+- Applying a room's register writes the operations and events of each of its kinds into the
+  room's `xmeta_operations`, so a tool learns a room's operations from the room itself.
+
+### Changed
+
+- The mirrorboard plugin reads the descriptions of `xmeta describe` of version 5 beside version
+  4.
+
 ## [0.5.3] - 2026-11-28
 
 ### Changed
@@ -313,7 +331,8 @@ The first release, for macOS on Apple Silicon (macOS 15 or newer).
   identity, chosen by itself when one vault here has a slot.
 - `xx update` and `install.sh`: install and update from the GitHub releases, checked by sha256.
 
-[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.3...HEAD
+[Unreleased]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.4...HEAD
+[0.5.4]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.3...v0.5.4
 [0.5.3]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/mirrorboards-cli/cli-xx/compare/v0.5.0...v0.5.1
